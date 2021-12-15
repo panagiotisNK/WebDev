@@ -75,3 +75,28 @@ CREATE TABLE poiData(
 );
 
 
+CREATE TABLE user(
+    userId INT(10) AUTO INCREMENT NOT NULL,
+    username VARCHAR(10) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    userType VARCHAR(5) NOT NULL,
+    pass VARCHAR(100) NOT NULL,
+    PRIMARY KEY (userId),
+    UNIQUE KEY (username),
+    UNIQUE KEY (email)
+);
+
+
+CREATE TABLE visits(
+    poiId VARCHAR(30) NOT NULL,
+    userId INT(10) NOT NULL,
+    visitStamp TIMESTAMP NOT NULL,
+    PRIMARY KEY (poiId, userId),
+    CONSTRAINT VISITED
+    FOREIGN KEY (poiId) REFERENCES poi(poiId)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (userId) REFERENCES user(userId)
+    ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
