@@ -8,8 +8,7 @@ CREATE TABLE poi(
     poiAddress VARCHAR(100) NOT NULL,
     poiRating FLOAT(3,2) DEFAULT 0.00 NOT NULL,
     poiRatingn INT(10) DEFAULT 0 NOT NULL,
-    poiCurrPop INT(10) DEFAULT 0, --den einai aparaithto
-    --timespent den einai aparaithto
+    poiCurrPop INT(10) DEFAULT 0, 
     PRIMARY KEY (poiId)
 );
 
@@ -33,17 +32,7 @@ CREATE TABLE poiCoordinates(
 
 CREATE TABLE popularTimes(
     poiId VARCHAR(30) NOT NULL,
-    day ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday') NOT NULL,
-    PRIMARY KEY (poiId, day),
-    CONSTRAINT REL
-    FOREIGN KEY (poiId) REFERENCES poi(poiId)
-    ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-
-CREATE TABLE poiData(
-    poiId VARCHAR(30) NOT NULL,
-    dataDay ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday') NOT NULL,
+    dataDay SET("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"),
     dataVal0 INT(10) DEFAULT 0 NOT NULL,
     dataVal1 INT(10) DEFAULT 0 NOT NULL,
     dataVal2 INT(10) DEFAULT 0 NOT NULL,
@@ -68,10 +57,9 @@ CREATE TABLE poiData(
     dataVal21 INT(10) DEFAULT 0 NOT NULL,
     dataVal22 INT(10) DEFAULT 0 NOT NULL,
     dataVal23 INT(10) DEFAULT 0 NOT NULL,
-    PRIMARY KEY (poiId, dataDay),
-    CONSTRAINT POPULARITY
-    FOREIGN KEY (poiId, dataDay) REFERENCES popularTimes(poiId, day)
-    ON DELETE CASCADE ON UPDATE CASCADE
+    PRIMARY KEY (poiId,dataDay),
+    CONSTRAINT POP
+    FOREIGN KEY (poiId) REFERENCES poi(poiId)
 );
 
 
