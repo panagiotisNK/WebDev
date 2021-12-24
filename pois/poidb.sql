@@ -64,12 +64,12 @@ CREATE TABLE popularTimes(
 
 
 CREATE TABLE users(
-    userId AUTO_INCREMENT NOT NULL,
+    id AUTO_INCREMENT NOT NULL,
     username VARCHAR(10) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    userType VARCHAR(5) NOT NULL,
-    pass VARCHAR(100) NOT NULL,
-    PRIMARY KEY (userId),
+    user_type VARCHAR(5) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id),
     UNIQUE KEY (username),
     UNIQUE KEY (email)
 );
@@ -83,7 +83,7 @@ CREATE TABLE visits(
     CONSTRAINT VISITED
     FOREIGN KEY (poiId) REFERENCES poi(poiId)
     ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (userId) REFERENCES users(userId)
+    FOREIGN KEY (userId) REFERENCES users(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
 
