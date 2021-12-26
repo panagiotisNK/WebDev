@@ -43,6 +43,39 @@
     </style>
 </head>
 <body>
+
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container">
+            <a href="#" class="navbar-brand">Covid Heat Maps</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+            <!--    <li class="nav-item">
+                    <a href="usermap.php" class="nav-link">Home</a>
+                    </li> -->
+
+                    <!-- logged in user information -->
+                    <li class="nav-item">
+                        <img src="images/user_profile.png">
+                    </li>
+
+                    <li class="nav-item">
+                        <?php  if (isset($_SESSION['user'])) : ?>
+					        <strong>
+                                <i style="color: white;"> <?php echo $_SESSION['user']['username']; ?>
+                            </strong>
+
+					        <small>
+    		    				<i  style="color: #888;">(]<?php echo ucfirst($_SESSION['user']['user_type']); ?>)</i> 
+		    		    		<a href="usermap.php?logout='1'" style="color: red;">logout</a>
+			        		</small>
+
+		        		<?php endif ?>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
 	<div class="header">
 		<h2>Home Page</h2>
 	</div>
@@ -58,23 +91,6 @@
 				</h3>
 			</div>
 		<?php endif ?>
-		<!-- logged in user information -->
-		<div class="profile_info">
-			<img src="images/user_profile.png"  >
-
-			<div>
-				<?php  if (isset($_SESSION['user'])) : ?>
-					<strong><?php echo $_SESSION['user']['username']; ?></strong>
-
-					<small>
-						<i  style="color: #888;">(<?php echo ucfirst($_SESSION['user']['user_type']); ?>)</i> 
-						<br>
-						<a href="usermap.php?logout='1'" style="color: red;">logout</a>
-					</small>
-
-				<?php endif ?>
-			</div>
-		</div>
 	</div>
     <h1 style="text-align:center;">This is your location!</h1>
     <div class="topnav">
