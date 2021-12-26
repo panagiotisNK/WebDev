@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="style4.css">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+	<div class="container">
+		<a href="#" class="navbar-brand">Covid Heat Maps</a>
+	</div>
+</nav>
+
 <div class="header">
 	<h2>Register</h2>
 </div>
