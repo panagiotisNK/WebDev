@@ -64,7 +64,7 @@ CREATE TABLE popularTimes(
 
 
 CREATE TABLE users(
-    id AUTO_INCREMENT NOT NULL,
+    id INT(10) AUTO_INCREMENT NOT NULL,
     username VARCHAR(10) NOT NULL,
     email VARCHAR(100) NOT NULL,
     user_type VARCHAR(5) NOT NULL,
