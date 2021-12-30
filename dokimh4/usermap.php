@@ -41,16 +41,16 @@ $con=mysqli_connect("localhost","root","","pois");
 
         // Retrieve data from database
         <?php
-            $query = mysqli_query($con,"select * from poicoordinates");
+            $query = mysqli_query($con,"SELECT poiName, lat, lng FROM poi INNER JOIN poiCoordinates ON poiCoordinates.poiId = poi.poiId");
             while ($data = mysqli_fetch_array($query))
             {
-                $nama = $data['poiId'];
+                $nama = $data['poiName'];
                 $lat = $data['lat'];
                 $lon = $data['lng'];
                 
-                echo ("addMarker($lat, $lon, '<b>$nama</b>');\n");                        
+                echo ("addMarker($lat, $lon, '<b>$nama</b>');\n");                      
             }
-          ?>
+        ?>
           
         // Proses of making marker 
         function addMarker(lat, lng, info) {
