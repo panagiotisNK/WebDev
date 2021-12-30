@@ -52,7 +52,7 @@ $con=mysqli_connect("localhost","root","","pois");
             }
         ?>
           
-        // Proses of making marker 
+        // Process of making marker 
         function addMarker(lat, lng, info) {
             var lokasi = new google.maps.LatLng(lat, lng);
             bounds.extend(lokasi);
@@ -151,23 +151,6 @@ $con=mysqli_connect("localhost","root","","pois");
 				</h3>
 			</div>
 		<?php endif ?>
-		<!-- logged in user information 
-		<div class="profile_info">
-			<img src="images/user_profile.png">
-
-			<div>
-				<?php  if (isset($_SESSION['user'])) : ?>
-					<strong><?php echo $_SESSION['user']['username']; ?></strong>
-
-					<small>
-						<i  style="color: #888;">(<?php echo ucfirst($_SESSION['user']['user_type']); ?>)</i> 
-						<br>
-						<a href="usermap.php?logout='1'" style="color: red;">logout</a>
-					</small>
-
-				<?php endif ?>
-			</div>
-		</div>-->
 	</div>
     <h1 style="text-align:center;">This is your location!</h1>
     <div class="topnav">
