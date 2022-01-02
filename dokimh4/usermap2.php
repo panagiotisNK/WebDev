@@ -1,4 +1,6 @@
 <?php 
+//$con = mysqli_connect('localhost', 'root', '', 'pois');
+
 	include('functions.php');
     if (!isLoggedIn()) {
         $_SESSION['msg'] = "You must log in first";
@@ -78,10 +80,10 @@
 	</div>
     <h1 style="text-align:center;">This is your location!</h1>
     <div class="topnav">
-  <a class="active" href="#home"></a>
-  
-  <input type="text" placeholder="SEARCH A POI...">
-  <button type="submit"><i class="fa fa-search"></i></button>
+    <form action="" method="post">
+        <input type="text" placeholder="Search" name="search">
+        <button type="submit" name="submit">Search</button>
+    </form>
 </div>
     <div id="map">
     
@@ -122,6 +124,13 @@
     osm.addTo(map);
     // map.addLayer(osm)
 
+   /* //Search Panel
+    var searchLayer = L.layerGroup().addTo(map);
+
+
+    map.addControl( new L.Control.Search({layer: searchLayer}) );
+   */
+   
     //USER LOCATION
     L.control.locate().addTo(map);
 
@@ -177,14 +186,59 @@
         //iconUrl: 'red_marker2.png',
         iconSize: [40, 40],
     });
-    var singleMarker = L.marker([38.246275, 21.734931], { icon: myIcon, draggable: false });
+   
+<?php
+   $con = mysqli_connect('localhost', 'root', '', 'pois');
+
+
+    $query = mysqli_query($con,"SELECT poiName, lat, lng FROM poi INNER JOIN poiCoordinates ON poiCoordinates.poiId = poi.poiId");
+            while ($data = mysqli_fetch_array($query))
+            {
+                $name = $data['poiName'];
+                $lat = $data['lat'];
+                $lon = $data['lng'];
+
+                echo("var marker = L.marker([ $lat, $lon]);
+                marker.addTo(map);
+                console.log(marker.toGeoJSON());
+                marker.bindPopup('<b>$name</b>');");
+                
+            }
+
+
+          /*  if (isset($_POST['submit'])) {
+                $searchValue = $_POST['search'];
+                $con = new mysqli("localhost", "root", "", "pois");
+                if ($con->connect_error) {
+                    echo "connection Failed: " . $con->connect_error;
+                } else {
+                    $sql = "SELECT poiName, lat, lng FROM poi INNER JOIN poiCoordinates ON poiCoordinates.poiId = poi.poiId WHERE poiName LIKE '%$searchValue%' ";
+            
+                    while ($data = mysqli_fetch_array($query)){
+                        $name = $data['poiName'];
+                        $lat = $data['lat'];
+                        $lon = $data['lng'];  
+                        
+                        //let marker = L.marker([ lat, lng]);
+                        echo ("var marker = L.marker([ $lat, $lon]);
+                        marker.addTo(map);
+                        console.log(marker.toGeoJSON());
+                        marker.bindPopup('<b>$name</b>');\n"); 
+                    }
+            
+                  
+                }   
+            }*/
+
+?>
+   /*var singleMarker = L.marker([38.246275, 21.734931], { icon: myIcon, draggable: false });
     var popup = singleMarker.bindPopup('Plateia Georgiou,Patras ' + singleMarker.getLatLng()).openPopup()
     popup.addTo(map);
 
     var secondMarker = L.marker([38.2218,21.7366], { icon: myIcon, draggable: true});
 
     console.log(singleMarker.toGeoJSON())
-
+*/
 
     /*==============================================
                 GEOJSON
