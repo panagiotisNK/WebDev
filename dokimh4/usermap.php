@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.76.0/dist/L.Control.Locate.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet ‐search@3.0.2/dist/leaflet ‐search.min.css" />
+
     <style>
         body {
             margin: 1;
@@ -145,6 +147,12 @@
 <script src="./data/polygon.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.76.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet ‐search/3.0.2/leaflet ‐search.min.js"> </script>
+<script src="../src/leaflet-search.js"></script>
+<script src="grunt.js"></script>
+
+
+
 
 <script>
     // Map initialization 
@@ -170,7 +178,7 @@
    */
    
     //USER LOCATION
-    L.control.locate().addTo(map);
+   //L.control.locate().addTo(map);
 
 
 
@@ -225,29 +233,31 @@
         iconSize: [40, 40],
     });
    
+
+
 <?php
    $con = mysqli_connect('localhost', 'root', '', 'pois');
 
-
+  echo(" var markersLayer = new L.LayerGroup().addTo(map);");
     $query = mysqli_query($con,"SELECT poiName, lat, lng FROM poi INNER JOIN poiCoordinates ON poiCoordinates.poiId = poi.poiId");
             while ($data = mysqli_fetch_array($query))
             {
                 $name = $data['poiName'];
                 $lat = $data['lat'];
-                $lon = $data['lng'];
+                $lng = $data['lng'];
 
-            /*    echo("var marker = L.marker([ $lat, $lon]);
-                marker.addTo(map);
+               echo("var marker = L.marker([ $lat, $lng]);
+                marker.addTo(markersLayer);
                 console.log(marker.toGeoJSON());
                 marker.bindPopup('<b>$name</b>');");
-                */
+                
                
-                /* echo("   let marker = L.marker( $lat, $lon),
+                 /*echo("   let marker = L.marker( $lat, $lon),
                     {$name: name});     
                     marker.bindPopup($name);
                     marker.addTo(markersLayer);");*/
             }
-               echo("L.Control.geocoder().addTo(map)");
+               //echo("L.Control.geocoder().addTo(map)");
 
 
 
@@ -278,15 +288,15 @@
 ?>
 
 
-
-let markersLayer = new L.LayerGroup();
-mymap.addLayer(markersLayer);
-let controlSearch = new L.Control.Search({
-position: "topright",layer:markersLayer,
-initial: false, zoom: 15,
-marker: false});
-mymap.addControl(controlSearch);
-
+//let markersLayer = new L.LayerGroup();
+//L.Control.geocoder().addTo(map);
+//map.addLayer(markersLayer);
+//var controlSearch = new L.Control.Search({
+//position: "topright",layer:markersLayer,
+//initial: false, zoom: 15,
+//marker: false});
+//map.addControl(controlSearch);
+map.addControl( new L.Control.Search({layer: markersLayer,position:"topright"}) );
 
    /*var singleMarker = L.marker([38.246275, 21.734931], { icon: myIcon, draggable: false });
     var popup = singleMarker.bindPopup('Plateia Georgiou,Patras ' + singleMarker.getLatLng()).openPopup()
