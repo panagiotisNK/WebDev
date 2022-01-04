@@ -14,7 +14,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 	<link rel="stylesheet" type="text/css" href="style4.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
     <!-- leaflet css  -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -52,6 +51,7 @@
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
         <div class="container">
             <a href="#" class="navbar-brand">Covid Heat Maps</a>
+            
             <div class="collapse navbar-collapse">
 				<ul class="navbar-nav">
 					<li class="nav-item">
@@ -67,15 +67,16 @@
                     <li class="nav-item">
                         <?php  if (isset($_SESSION['user'])) : ?>
 					        <strong>
-                                <i style="color: white;"> <?php echo $_SESSION['user']['username']; ?>
+                                <i style="color: white;"> <?php echo $_SESSION['user']['username']; ?> </i>
                             </strong>
 
-					        <small>
-    		    				<i  style="color: #888;">(<?php echo ucfirst($_SESSION['user']['user_type']); ?>)</i> 
-		    		    		<a href="usermap.php?logout='1'" style="color: red;">logout</a>
-			        		</small>
-
+    		    			<i  style="color: #888;">(<?php echo ucfirst($_SESSION['user']['user_type']); ?>) </i> 
+			        		
 		        		<?php endif ?>
+                    </li>
+
+                    <li class="nav-item"> 
+                            <a href="usermap.php?logout='1'" style="color: red;"> Log Out </a>
                     </li>
                 </ul>
             </div>
@@ -84,57 +85,13 @@
 
 
 
-	<div class="header">
-		<h2>Home Page</h2>
-	</div>
-	<div class="content">
-		<!-- notification message -->
-		<?php if (isset($_SESSION['success'])) : ?>
-			<div class="error success" >
-				<h3>
-					<?php 
-						echo $_SESSION['success']; 
-						unset($_SESSION['success']);
-					?>
-				</h3>
-			</div>
-		<?php endif ?>
-		<!-- logged in user information -->
-		<div class="profile_info">
-			<img src="images/user_profile.png"  >
-
-			<div>
-				<?php  if (isset($_SESSION['user'])) : ?>
-					<strong><?php echo $_SESSION['user']['username']; ?></strong>
-
-					<small>
-						<i  style="color: #888;">(<?php echo ucfirst($_SESSION['user']['user_type']); ?>)</i> 
-						<br>
-						<a href="usermap.php?logout='1'" style="color: red;">logout</a>
-					</small>
-
-				<?php endif ?>
-			</div>
-		</div>
-	</div>
-    <h1 style="text-align:center;">This is your location!</h1>
-    <div class="topnav">
-    <form action="" method="post">
-        <input type="text" placeholder="Search" name="search">
-        <button type="submit" name="submit">Search</button>
-    </form>
-</div>
     <div id="map">
     
         <div class="leaflet-control coordinate"></div>
     </div>
     
-    </div>
+</div>
     
-    <p>
-		Change your profile <a href="changes.php">Here!</a>
-	</p>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
@@ -229,23 +186,15 @@
     });
    
 
+/*Gia na treksei se Pano, Swto*/
 
 <?php
-   $con = mysqli_connect('localhost', 'root', '', 'pois');
+/*  $con = mysqli_connect('localhost', 'root', '', 'pois');
 
- /* echo(" var markersLayer = new L.LayerGroup().addTo(map);");
-    $query = mysqli_query($con,"SELECT poiName, lat, lng FROM poi INNER JOIN poiCoordinates ON poiCoordinates.poiId = poi.poiId");
-            while ($data = mysqli_fetch_array($query))
-            {
-                $name = $data['poiName'];
-                $lat = $data['lat'];
-                $lng = $data['lng'];
+    echo(" var markersLayer = new L.LayerGroup().addTo(map);");
 
-               echo("var marker = L.marker([ $lat, $lng]);
-                marker.addTo(markersLayer);
-                console.log(marker.toGeoJSON());
-                marker.bindPopup('<b>$name</b>');");
-            }*/
+
+
     $sql = "SELECT poiName, lat, lng FROM poi INNER JOIN poiCoordinates ON poiCoordinates.poiId = poi.poiId"; 
     $result = mysqli_query($con,$sql);
     $json_array = array();
@@ -256,20 +205,16 @@
     
     $js_array=json_encode($json_array,JSON_UNESCAPED_UNICODE);
     echo "var data = ". $js_array . ";\n"
+
+
+
+*/
               
 ?>
 
+/* Gia na treksei se Pano Swto */
 
-//let markersLayer = new L.LayerGroup();
-//L.Control.geocoder().addTo(map);
-//map.addLayer(markersLayer);
-//var controlSearch = new L.Control.Search({
-//position: "topright",layer:markersLayer,
-//initial: false, zoom: 15,
-//marker: false});
-//map.addControl(controlSearch);
-//map.addControl( new L.Control.Search({layer:markersLayer ,position:"topright"}) );
-var markersLayer = new L.LayerGroup().addTo(map);
+/*var markersLayer = new L.LayerGroup().addTo(map);
 
 for(i in data) {
 		var title = data[i].poiName;	//value searched
@@ -280,14 +225,42 @@ for(i in data) {
 		markersLayer.addLayer(marker);
 	}
     map.addControl( new L.Control.Search({layer:markersLayer ,position:"topright",zoom:17}) );
-   /*var singleMarker = L.marker([38.246275, 21.734931], { icon: myIcon, draggable: false });
-    var popup = singleMarker.bindPopup('Plateia Georgiou,Patras ' + singleMarker.getLatLng()).openPopup()
-    popup.addTo(map);
-
-    var secondMarker = L.marker([38.2218,21.7366], { icon: myIcon, draggable: true});
-
-    console.log(singleMarker.toGeoJSON())
 */
+
+/*Gia na treksei se myrtw*/
+
+<?php
+
+    $con = mysqli_connect('localhost', 'root', '', 'pois');
+
+    $sql = "SELECT poiId, lat, lng FROM poiCoordinates"; 
+    $result = mysqli_query($con,$sql);
+    $json_array = array();
+    while($row = mysqli_fetch_assoc($result))
+    {
+        $json_array[]=$row;
+    }
+
+    $js_array=json_encode($json_array,JSON_UNESCAPED_UNICODE);
+    echo "var data = ". $js_array . ";\n"
+
+?>
+/*gia na treksei se myrtw*/
+
+var markersLayer = new L.LayerGroup().addTo(map);
+
+for(i in data) {
+		var title = data[i].poiId;	//value searched
+		var	lat = data[i].lat;
+        var lng = data[i].lng;		//position found
+		var	marker = new L.Marker(new L.latLng([lat,lng]), {title: title} );//se property searched
+		marker.bindPopup( title );
+		markersLayer.addLayer(marker);
+	}
+    map.addControl( new L.Control.Search({layer:markersLayer ,position:"topright",zoom:17}) );
+
+
+
 
     /*==============================================
                 GEOJSON
