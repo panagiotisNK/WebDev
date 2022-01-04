@@ -147,7 +147,7 @@
 <script src="./data/polygon.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.76.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-<script src="leaflet-search-master/dist/leaflet-search.min.js"> </script>
+<script src="leaflet-search-master/dist/leaflet-search.min.js"></script>
 <script src="leaflet-search-master/dist/leaflet-search.src.js"></script>
 
 
@@ -156,7 +156,8 @@
 
 <script>
     // Map initialization 
-    var map = L.map('map').setView([38.2466,21.7346], 200);
+    //var map = L.map('map').setView([38.2466,21.7346], 200);
+    var map = L.map('map', {doubleClickZoom: false}).locate({setView: true, maxZoom: 200});
 
 
 
@@ -172,9 +173,9 @@
 
    
     //USER LOCATION
-   L.control.locate().addTo(map);
+   //L.control.locate().addTo(map);
 
-
+   map.addControl(L.control.locate({locateOptions: {enableHighAccuracy: true}}));
 
 
     // water color 
