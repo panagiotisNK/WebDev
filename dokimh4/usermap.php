@@ -20,8 +20,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.76.0/dist/L.Control.Locate.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet ‐search@3.0.2/dist/leaflet ‐search.min.css" />
-
+    <link rel="stylesheet" href="leaflet-search-master/dist/leaflet-search.min.css" />
+    <link rel="stylesheet" href="leaflet-search-master/dist/leaflet-search.src.css" />
     <style>
         body {
             margin: 1;
@@ -147,9 +147,9 @@
 <script src="./data/polygon.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.76.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet ‐search/3.0.2/leaflet ‐search.min.js"> </script>
-<script src="../src/leaflet-search.js"></script>
-<script src="grunt.js"></script>
+<script src="leaflet-search-master/dist/leaflet-search.min.js"> </script>
+<script src="leaflet-search-master/dist/leaflet-search.src.js"></script>
+
 
 
 
@@ -170,15 +170,9 @@
     osm.addTo(map);
     // map.addLayer(osm)
 
-   /* //Search Panel
-    var searchLayer = L.layerGroup().addTo(map);
-
-
-    map.addControl( new L.Control.Search({layer: searchLayer}) );
-   */
    
     //USER LOCATION
-   //L.control.locate().addTo(map);
+   L.control.locate().addTo(map);
 
 
 
@@ -238,7 +232,7 @@
 <?php
    $con = mysqli_connect('localhost', 'root', '', 'pois');
 
-  echo(" var markersLayer = new L.LayerGroup().addTo(map);");
+ /* echo(" var markersLayer = new L.LayerGroup().addTo(map);");
     $query = mysqli_query($con,"SELECT poiName, lat, lng FROM poi INNER JOIN poiCoordinates ON poiCoordinates.poiId = poi.poiId");
             while ($data = mysqli_fetch_array($query))
             {
@@ -250,41 +244,18 @@
                 marker.addTo(markersLayer);
                 console.log(marker.toGeoJSON());
                 marker.bindPopup('<b>$name</b>');");
-                
-               
-                 /*echo("   let marker = L.marker( $lat, $lon),
-                    {$name: name});     
-                    marker.bindPopup($name);
-                    marker.addTo(markersLayer);");*/
-            }
-               //echo("L.Control.geocoder().addTo(map)");
-
-
-
-          /*  if (isset($_POST['submit'])) {
-                $searchValue = $_POST['search'];
-                $con = new mysqli("localhost", "root", "", "pois");
-                if ($con->connect_error) {
-                    echo "connection Failed: " . $con->connect_error;
-                } else {
-                    $sql = "SELECT poiName, lat, lng FROM poi INNER JOIN poiCoordinates ON poiCoordinates.poiId = poi.poiId WHERE poiName LIKE '%$searchValue%' ";
-            
-                    while ($data = mysqli_fetch_array($query)){
-                        $name = $data['poiName'];
-                        $lat = $data['lat'];
-                        $lon = $data['lng'];  
-                        
-                        //let marker = L.marker([ lat, lng]);
-                        echo ("var marker = L.marker([ $lat, $lon]);
-                        marker.addTo(map);
-                        console.log(marker.toGeoJSON());
-                        marker.bindPopup('<b>$name</b>');\n"); 
-                    }
-            
-                  
-                }   
             }*/
-
+    $sql = "SELECT poiName, lat, lng FROM poi INNER JOIN poiCoordinates ON poiCoordinates.poiId = poi.poiId"; 
+    $result = mysqli_query($con,$sql);
+    $json_array = array();
+    while($row = mysqli_fetch_assoc($result))
+    {
+        $json_array[]=$row;
+    }
+    
+    $js_array=json_encode($json_array,JSON_UNESCAPED_UNICODE);
+    echo "var data = ". $js_array . ";\n"
+              
 ?>
 
 
@@ -296,8 +267,18 @@
 //initial: false, zoom: 15,
 //marker: false});
 //map.addControl(controlSearch);
-map.addControl( new L.Control.Search({layer: markersLayer,position:"topright"}) );
+//map.addControl( new L.Control.Search({layer:markersLayer ,position:"topright"}) );
+var markersLayer = new L.LayerGroup().addTo(map);
 
+for(i in data) {
+		var title = data[i].poiName;	//value searched
+		var	lat = data[i].lat;
+        var lng = data[i].lng;		//position found
+		var	marker = new L.Marker(new L.latLng([lat,lng]), {title: title} );//se property searched
+		marker.bindPopup( title );
+		markersLayer.addLayer(marker);
+	}
+    map.addControl( new L.Control.Search({layer:markersLayer ,position:"topright",zoom:17}) );
    /*var singleMarker = L.marker([38.246275, 21.734931], { icon: myIcon, draggable: false });
     var popup = singleMarker.bindPopup('Plateia Georgiou,Patras ' + singleMarker.getLatLng()).openPopup()
     popup.addTo(map);
