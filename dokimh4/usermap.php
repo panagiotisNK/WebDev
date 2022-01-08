@@ -234,7 +234,7 @@ $.ajax(
   'data.php',
   {
 
-      success: function(data) {
+      success: function(data){
         data = JSON.parse(data);
 
         let markersLayer = new L.LayerGroup().addTo(map);
