@@ -98,6 +98,9 @@
 
 
 <!-- leaflet js  -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script src="./data/point.js"></script>
 <script src="./data/line.js"></script>
@@ -187,79 +190,80 @@
    
 
 /*Gia na treksei se Pano, Swto*/
+/*
+$.ajax(
+  'data1.php',
+  {
 
-<?php
-/*  $con = mysqli_connect('localhost', 'root', '', 'pois');
+      success: function(data) {
+        data = JSON.parse(data);
 
-    echo(" var markersLayer = new L.LayerGroup().addTo(map);");
+        let markersLayer = new L.LayerGroup().addTo(map);
+
+for(let i in data) {
+        let title = data[i].poiName;    //value searched
+        let    lat = data[i].lat;
+
+        let lng = data[i].lng;        //position found
+        let    marker = new L.Marker(new L.latLng([lat,lng]), {title: title , clickable: false } );//se property searched
+        marker.bindPopup( title );
+        markersLayer.addLayer(marker);
+        marker.setOpacity(0);
 
 
-
-    $sql = "SELECT poiName, lat, lng FROM poi INNER JOIN poiCoordinates ON poiCoordinates.poiId = poi.poiId"; 
-    $result = mysqli_query($con,$sql);
-    $json_array = array();
-    while($row = mysqli_fetch_assoc($result))
-    {
-        $json_array[]=$row;
     }
-    
-    $js_array=json_encode($json_array,JSON_UNESCAPED_UNICODE);
-    echo "var data = ". $js_array . ";\n"
+    map.addControl( new L.Control.Search({layer:markersLayer ,position:"topright",zoom:17})
+    .on('search:locationfound', function({latlng, title, layer}){
+        layer.setOpacity(1);
+    }) );
+ 
 
 
+      },
+      error: function() {
+        alert('There was some error performing the AJAX call!');
+      }
+   }
+);
 
-*/
-              
-?>
-
-/* Gia na treksei se Pano Swto */
-
-/*var markersLayer = new L.LayerGroup().addTo(map);
-
-for(i in data) {
-		var title = data[i].poiName;	//value searched
-		var	lat = data[i].lat;
-        var lng = data[i].lng;		//position found
-		var	marker = new L.Marker(new L.latLng([lat,lng]), {title: title} );//se property searched
-		marker.bindPopup( title );
-		markersLayer.addLayer(marker);
-	}
-    map.addControl( new L.Control.Search({layer:markersLayer ,position:"topright",zoom:17}) );
 */
 
 /*Gia na treksei se myrtw*/
 
-<?php
+$.ajax(
+  'data.php',
+  {
 
-    $con = mysqli_connect('localhost', 'root', '', 'pois');
+      success: function(data) {
+        data = JSON.parse(data);
 
-    $sql = "SELECT poiId, lat, lng FROM poiCoordinates"; 
-    $result = mysqli_query($con,$sql);
-    $json_array = array();
-    while($row = mysqli_fetch_assoc($result))
-    {
-        $json_array[]=$row;
+        let markersLayer = new L.LayerGroup().addTo(map);
+
+for(let i in data) {
+        let title = data[i].poiId;    //value searched
+        let    lat = data[i].lat;
+
+        let lng = data[i].lng;        //position found
+        let    marker = new L.Marker(new L.latLng([lat,lng]), {title: title , clickable: false } );//se property searched
+        marker.bindPopup( title );
+        markersLayer.addLayer(marker);
+        marker.setOpacity(0);
+
+
     }
-
-    $js_array=json_encode($json_array,JSON_UNESCAPED_UNICODE);
-    echo "var data = ". $js_array . ";\n"
-
-?>
-/*gia na treksei se myrtw*/
-
-var markersLayer = new L.LayerGroup().addTo(map);
-
-for(i in data) {
-		var title = data[i].poiId;	//value searched
-		var	lat = data[i].lat;
-        var lng = data[i].lng;		//position found
-		var	marker = new L.Marker(new L.latLng([lat,lng]), {title: title} );//se property searched
-		marker.bindPopup( title );
-		markersLayer.addLayer(marker);
-	}
-    map.addControl( new L.Control.Search({layer:markersLayer ,position:"topright",zoom:17}) );
+    map.addControl( new L.Control.Search({layer:markersLayer ,position:"topright",zoom:17})
+    .on('search:locationfound', function({latlng, title, layer}){
+        layer.setOpacity(1);
+    }) );
+ 
 
 
+      },
+      error: function() {
+        alert('There was some error performing the AJAX call!');
+      }
+   }
+);
 
 
     /*==============================================
