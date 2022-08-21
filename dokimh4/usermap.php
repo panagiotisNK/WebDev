@@ -60,6 +60,12 @@
 					<li class="nav-item">
                     <a href="changes.php" class="nav-link">Change Your Profile</a>
                     </li> 
+                    <li class="nav-item">
+                    <a href="positive.php" class="nav-link">I'm positive!</a>
+                    </li>
+                    <li class="nav-item">
+                    <a href="history.php" class="nav-link">My History</a>
+                    </li>
 				</ul>
 
 				<!-- logged in user information -->
@@ -71,7 +77,7 @@
                             </strong>
 
     		    			<i  style="color: #888;">(<?php echo ucfirst($_SESSION['user']['user_type']); ?>) </i> 
-			        		
+			        
 		        		<?php endif ?>
                     </li>
 
@@ -189,47 +195,6 @@
     });
    
 
-/*Gia na treksei se Pano, Swto*/
-/*
-$.ajax(
-  'data1.php',
-  {
-
-      success: function(data) {
-        data = JSON.parse(data);
-
-        let markersLayer = new L.LayerGroup().addTo(map);
-
-for(let i in data) {
-        let title = data[i].poiName;    //value searched
-        let    lat = data[i].lat;
-
-        let lng = data[i].lng;        //position found
-        let    marker = new L.Marker(new L.latLng([lat,lng]), {title: title , clickable: false } );//se property searched
-        marker.bindPopup( title );
-        markersLayer.addLayer(marker);
-        marker.setOpacity(0);
-
-
-    }
-    map.addControl( new L.Control.Search({layer:markersLayer ,position:"topright",zoom:17})
-    .on('search:locationfound', function({latlng, title, layer}){
-        layer.setOpacity(1);
-    }) );
- 
-
-
-      },
-      error: function() {
-        alert('There was some error performing the AJAX call!');
-      }
-   }
-);
-
-*/
-
-/*Gia na treksei se myrtw*/
-
 $.ajax(
   'data.php',
   {
@@ -240,20 +205,32 @@ $.ajax(
         let markersLayer = new L.LayerGroup().addTo(map);
 
 for(let i in data) {
-        let title = data[i].poiId;    //value searched
+        let title = data[i].poiName;    //value searched
         let    lat = data[i].lat;
 
         let lng = data[i].lng;        //position found
         let    marker = new L.Marker(new L.latLng([lat,lng]), {title: title , clickable: false } );//se property searched
-        marker.bindPopup( title );
+
+
+     //   var popup = L.popup()
+ //   .setContent(title + "<br><button> Submit Visit </button>" , onclick="myFunction()");
+//marker.bindPopup(popup).openPopup();
+      
+
+// marker.bindPopup( title );
+
+marker.bindPopup( title + "<br><button type='Submit' onclick='myFunction()' class='btn' name='visit_btn'> Submit </button>" );
+
+
         markersLayer.addLayer(marker);
         marker.setOpacity(0);
-
+      
 
     }
     map.addControl( new L.Control.Search({layer:markersLayer ,position:"topright",zoom:17})
     .on('search:locationfound', function({latlng, title, layer}){
         layer.setOpacity(1);
+     
     }) );
  
 
@@ -262,10 +239,15 @@ for(let i in data) {
       error: function() {
         alert('There was some error performing the AJAX call!');
       }
+    
    }
 );
 
-
+function myFunction() {
+ let button = $(this).title;
+    console.log(button);
+  
+}
     /*==============================================
                 GEOJSON
     ================================================*/
@@ -283,7 +265,7 @@ for(let i in data) {
     }).addTo(map);
 
 
-
+    var btn = document.getElementById("myBtn");
     /*==============================================
                     LAYER CONTROL
     ================================================*/
