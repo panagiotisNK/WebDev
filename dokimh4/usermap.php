@@ -211,20 +211,26 @@ for(let i in data) {
 
         let lng = data[i].lng;        //position found
 
-       // let myIcon;
-        /*
-        if(data[i].popnow > 60){
+        let myIcon;
+        
+        if(data[i].popnow > 65){
             myIcon = L.icon({
-                iconUrl: "iconRed.jpg",
-                //iconAnchor: pinAnchor
+                iconUrl: "redm.png",
+                iconAnchor: pinAnchor
             });
-        }else if(){
-
+        }else if(data[i].popnow < 33){
+            myIcon = L.icon({
+                iconUrl: "greenm.png",
+                iconAnchor: pinAnchor
+            });
         }else{
-
+ myIcon = L.icon({
+                iconUrl: "orangem.png",
+                iconAnchor: pinAnchor
+            });
         }
-    */
-        let    marker = new L.Marker(new L.latLng([lat,lng]), {title: title , clickable: false /*, icon: myIcon */ } );//se property searched
+    
+        let    marker = new L.Marker(new L.latLng([lat,lng]), {title: title , clickable: false , icon: myIcon  } );//se property searched
 
 
      //   var popup = L.popup()
@@ -235,7 +241,7 @@ for(let i in data) {
 // marker.bindPopup( title );
 function addvisit(){
 
-    $.post('data1.php', { field1: poiId, field2 : "(<?php echo ucfirst($_SESSION['user']['username']); ?>)", field3:new Date()});
+    $.post('data1.php', { field1: poiId, field2 :userId , field3:new Date()});
 
     }
 marker.bindPopup( title + "<br><button type='Submit' onclick='addvisit()' class='btn' name='visit_btn'> Submit </button>" );
