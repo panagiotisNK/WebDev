@@ -16,3 +16,5 @@
     echo  ("$js_array");
               
 ?>
+"SELECT username, poiName, poiId, lat, lng, dataVal$stringDate AS popnow FROM visits INNER JOIN poi ON poi.poiId = visits.poiId INNER JOIN poiCoordinates ON poiCoordinates.poiId = visits.poiId INNER JOIN populartimes ON populartimes.poiId = poiCoordinates.poiId INNER JOIN user ON user.id = visits.userId"; 
+
