@@ -196,7 +196,7 @@
    
 
 $.ajax(
-  'data.php',
+  'data.php', 
   {
 
       success: function(data){
@@ -205,11 +205,26 @@ $.ajax(
         let markersLayer = new L.LayerGroup().addTo(map);
 
 for(let i in data) {
+   console.log(data[i].popnow)
         let title = data[i].poiName;    //value searched
         let    lat = data[i].lat;
 
         let lng = data[i].lng;        //position found
-        let    marker = new L.Marker(new L.latLng([lat,lng]), {title: title , clickable: false } );//se property searched
+
+       // let myIcon;
+        /*
+        if(data[i].popnow > 60){
+            myIcon = L.icon({
+                iconUrl: "iconRed.jpg",
+                //iconAnchor: pinAnchor
+            });
+        }else if(){
+
+        }else{
+
+        }
+    */
+        let    marker = new L.Marker(new L.latLng([lat,lng]), {title: title , clickable: false /*, icon: myIcon */ } );//se property searched
 
 
      //   var popup = L.popup()
@@ -218,8 +233,12 @@ for(let i in data) {
       
 
 // marker.bindPopup( title );
+function addvisit(){
 
-marker.bindPopup( title + "<br><button type='Submit' onclick='myFunction()' class='btn' name='visit_btn'> Submit </button>" );
+    $.post('data1.php', { field1: poiId, field2 : "(<?php echo ucfirst($_SESSION['user']['username']); ?>)", field3:new Date()});
+
+    }
+marker.bindPopup( title + "<br><button type='Submit' onclick='addvisit()' class='btn' name='visit_btn'> Submit </button>" );
 
 
         markersLayer.addLayer(marker);
@@ -240,7 +259,7 @@ marker.bindPopup( title + "<br><button type='Submit' onclick='myFunction()' clas
         alert('There was some error performing the AJAX call!');
       }
     
-   }
+   }    
 );
 
 function myFunction() {
