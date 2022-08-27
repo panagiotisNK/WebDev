@@ -61,9 +61,23 @@
 
 	<div class="input-group">
 		<label for="visitime">Date And Time(Optionally):</label>
-  <input type="datetime-local" id="visitime" name="visitime">
+  <input type="datetime-local" id="positivetime" name="positivetime">
   <div class="input-group">
-  <button class="btn btn-outline-light btn-lg px-3" type="submit">Submit</button>
+
+  <script>
+ $.ajax(
+  'select.php', 
+  {
+    function addpositive(){
+
+$.post('post_positive.php', { field1: positive, field2 :positivetime ,field:userId });
+
+}
+
+  }
+ )
+</script>
+  <button class="btn btn-outline-light btn-lg px-3" type="submit" onclick='addpositive()'>Submit</button>
 	</div>
 	</div>
     </div>

@@ -196,7 +196,7 @@
    
 
 $.ajax(
-  'data.php', 
+  'select.php', 
   {
 
       success: function(data){
@@ -241,7 +241,7 @@ for(let i in data) {
 // marker.bindPopup( title );
 function addvisit(){
 
-    $.post('data1.php', { field1: poiId, field2 :userId , field3:new Date()});
+    $.post('post_visit.php', { field1: poiId, field2 :userId , field3:new Date()});
 
     }
 marker.bindPopup( title + "<br><button type='Submit' onclick='addvisit()' class='btn' name='visit_btn'> Submit </button>" );
