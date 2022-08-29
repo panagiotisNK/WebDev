@@ -13,22 +13,17 @@ if (isset($_GET['logout'])) {
 	header("location: ../login.php");
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Home | Covid Heat Maps</title>
+	<title>Points of Interest | Covid Heat Maps</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 	<link rel="stylesheet" type="text/css" href="../style5.css">
-	<style>
-	.header {
-		background: #003366;
-	}
-	button[name=register_btn] {
-		background: #003366;
-	}
-	</style>
+	
 </head>
+
 <body>
 
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
