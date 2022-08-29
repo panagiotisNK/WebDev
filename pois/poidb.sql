@@ -79,6 +79,8 @@ CREATE TABLE visits(
     poiId VARCHAR(30) NOT NULL,
     userId INT(10) NOT NULL,
     visitStamp TIMESTAMP NOT NULL,
+    positive BOOLEAN,
+    positivetamp DATETIME,
     PRIMARY KEY (poiId, userId),
     CONSTRAINT VISITED
     FOREIGN KEY (poiId) REFERENCES poi(poiId)
