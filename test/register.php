@@ -30,26 +30,26 @@
                                     <p class="text-white-50 mb-5">Sign Up!</p>
 
                                     <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="typeEmailX">Email</label>
-                                        <input type="email" id="typeEmailX" class="form-control form-control-lg" />
+                                        <label class="form-label">Email</label>
+                                        <input type="email" name="email" class="form-control form-control-lg" value="<?php echo $email; ?>" />
                                     </div>
   
                                     <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="typeUsernameX">Username</label>
-                                        <input type="username" id="typeUsernameX" class="form-control form-control-lg" />
+                                        <label class="form-label">Username</label>
+                                        <input type="username" name="username" class="form-control form-control-lg" value="<?php echo $username; ?> />
                                     </div>
   
                                     <div class="form-outline form-white mb-4">
-                                        <label class="form-label" for="typePasswordX">Password</label>
-                                        <input type="password" name="typePasswordX" 
+                                        <label class="form-label">Password</label>
+                                        <input type="password" name="password_1" 
                                         class="form-control form-control-lg"
                                         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}" 
                                         title="Must contain at least one number and one uppercase and lowercase letter, at least 8 or more characters and a special character." required>
                                     </div>
 
                                     <div class="form-outline form-white mb-1">
-                                        <label class="form-label" for="typeReEnterPasswordX">Re-Enter your Password</label>
-                                        <input type="password" id="typeReEnterPasswordX" class="form-control form-control-lg" />
+                                        <label class="form-label">Re-Enter your Password</label>
+                                        <input type="password" name="password_2" class="form-control form-control-lg" />
                                     </div><br>
                                     <div>
                                         <button class="btn btn-outline-light btn-lg px-5" type="submit">Sign Up</button>
