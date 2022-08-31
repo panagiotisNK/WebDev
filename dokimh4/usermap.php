@@ -10,10 +10,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 	<title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-	<link rel="stylesheet" type="text/css" href="style4.css">
     
     <!-- leaflet css  -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -28,8 +31,8 @@
         }
 
         #map {
-            width: 50%;
-            height: 50vh;
+            width: 100%;
+            height: 500px;
         }
 
         .coordinate {
@@ -124,7 +127,6 @@
     // Map initialization 
     //var map = L.map('map').setView([38.2466,21.7346], 200);
     var map = L.map('map', {doubleClickZoom: false}).locate({setView: true, maxZoom: 200});
-
 
 
     /*==============================================
