@@ -79,14 +79,19 @@ CREATE TABLE visits(
     poiId VARCHAR(30) NOT NULL,
     userId INT(10) NOT NULL,
     visitStamp TIMESTAMP NOT NULL,
-    positive BOOLEAN,
-    positivetamp DATETIME,
-    PRIMARY KEY (poiId, userId),
+    PRIMARY KEY (userId, visitStamp),
     CONSTRAINT VISITED
-    FOREIGN KEY (poiId) REFERENCES poi(poiId)
-    ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (userId) REFERENCES users(id)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (poiId) REFERENCES poi(poiId)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-
+CREATE TABLE positive(
+    userId INT(10) NOT NULL,
+    positivetamp TIMESTAMP NOT NULL,
+    PRIMARY KEY (userId, positivetamp),
+    CONSTRAINT IS_POSITIVE
+    FOREIGN KEY (userId) REFERENCES users(id)
+    ON DELETE CASCADE ON UPDATE CASCADE
+);
