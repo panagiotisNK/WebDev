@@ -190,11 +190,11 @@
     /*==============================================
                         MARKER
     ================================================*/
-    var myIcon = L.icon({
+   /* var myIcon = L.icon({
         iconUrl: 'https://e7.pngegg.com/pngimages/453/571/png-clipart-location-marker-logo-picture-material-creative-logo-thumbnail.png',
         //iconUrl: 'red_marker2.png',
         iconSize: [40, 40],
-    });
+    });*/
    
 
 $.ajax(
@@ -217,21 +217,53 @@ for(let i in data) {
         
         if(data[i].popnow > 65){
             myIcon = L.icon({
-                iconUrl: "redm.png",
-                iconAnchor: pinAnchor
-            });
+             //   iconUrl: 'leaf-red.png',
+                iconUrl: 'redm.png',
+   // shadowUrl: 'leaf-shadow.png',
+
+    iconSize:     [38, 95], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+              //  iconUrl: "redm.png",
+              //  iconAnchor: pinAnchor
+            //});
         }else if(data[i].popnow < 33){
             myIcon = L.icon({
-                iconUrl: "greenm.png",
-                iconAnchor: pinAnchor
-            });
+             //   iconUrl: 'leaf-green.png',
+                iconUrl: 'greenm.jpg',
+   // shadowUrl: 'leaf-shadow.png',
+
+    iconSize:     [38, 95], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+              //  iconUrl: "greenm.png",
+              //  iconAnchor: pinAnchor
+           // });
         }else{
- myIcon = L.icon({
-                iconUrl: "orangem.png",
-                iconAnchor: pinAnchor
-            });
+    myIcon = L.icon({
+  //  iconUrl: 'leaf-orange.png',
+    iconUrl: 'orangem.png',
+  //  shadowUrl: 'leaf-shadow.png',
+
+    iconSize:     [38, 95], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+              //  iconUrl: "orangem.png",
+               // iconAnchor: pinAnchor
+            //});
         }
-    
+       
+
+
         let    marker = new L.Marker(new L.latLng([lat,lng]), {title: title , clickable: false , icon: myIcon  } );//se property searched
 
 
@@ -246,7 +278,7 @@ function addvisit(){
     $.post('post_visit.php', { field1: poiId, field2 :userId , field3:new Date()});
 
     }
-marker.bindPopup( title + "<br><button type='Submit' onclick='addvisit()' class='btn' name='visit_btn'> Submit </button>" );
+marker.bindPopup( data[i].popnow + title + "<br><button type='Submit' onclick='addvisit()' class='btn' name='visit_btn'> Submit </button>" );
 
 
         markersLayer.addLayer(marker);
