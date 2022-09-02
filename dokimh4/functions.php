@@ -165,3 +165,33 @@ function isAdmin()
 		return false;
 	}
 }
+
+if (isset($_POST['positive_btn'])) {
+	addpositive();
+}
+
+function addpositive(){
+	// call these variables with the global keyword to make them available in function
+	global $db, $errors, $date;
+
+	// receive all input values from the form. Call the e() function
+    // defined below to escape form values
+	$date   =  e($_POST['positivetime']);
+	$logged_in_user_id = mysqli_insert_id($db);
+
+	// form validation: ensure that the form is correctly filled
+	if (empty($date)) { 
+		array_push($errors, "Timestamp is required"); 
+	}
+	
+
+	// register user if there are no errors in the form
+	if (count($errors) == 0) {
+		
+			$query = "INSERT INTO positive (userId, positivetamp) 
+					  VALUES('$logged_in_user_id', '$date')";
+			mysqli_query($db, $query);
+					
+		
+	}
+}

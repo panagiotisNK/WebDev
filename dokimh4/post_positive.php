@@ -1,12 +1,12 @@
-
 <?php
    $con = mysqli_connect('localhost', 'root', '', 'pois');
-   $pos = $_POST['field1'] ;
-   $postamp = $_POST['field2'];
-   $userid = $_POST['field3'];
+   $date = $_POST['field1'];
+   $userid = $_POST['field2'];
+   
 
 
-   /* $sql = "UPDATE visits 
-    SET positive='$pos', positivetamp= '$postamp'
-    WHERE userId='$userid'";*/
+    $sql = "INSERT INTO positive (userId, positivetamp)
+    VALUES ('$userid', '$date')";
+    
+    
    ?>
