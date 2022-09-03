@@ -102,13 +102,6 @@ function isLoggedIn()
 	}
 }
 
-function get_current_user_id() {
-    if ( ! function_exists( 'wp_get_current_user' ) ) {
-        return 0;
-    }
-    $userId = wp_get_current_user();
-    return ( isset( $userId->ID ) ? (int) $userId->ID : 0 );
-}
 
 // log user out if logout button clicked
 if (isset($_GET['logout'])) {
