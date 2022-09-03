@@ -61,7 +61,7 @@
 
 	<div class="input-group">
 		<label for="visitime">Date And Time(Optionally):</label>
-  <input type="datetime-local" id="positivetime" name="positivetime" value="<?php echo $date; ?>">
+  <input type="date" id="positivedate" name="positivedate" >
   <div class="input-group">
 
   <button class="btn btn-outline-light btn-lg px-3" type="submit"  name="positive_btn">Submit</button>

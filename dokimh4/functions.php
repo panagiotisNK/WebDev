@@ -102,6 +102,14 @@ function isLoggedIn()
 	}
 }
 
+function get_current_user_id() {
+    if ( ! function_exists( 'wp_get_current_user' ) ) {
+        return 0;
+    }
+    $userId = wp_get_current_user();
+    return ( isset( $userId->ID ) ? (int) $userId->ID : 0 );
+}
+
 // log user out if logout button clicked
 if (isset($_GET['logout'])) {
 	session_destroy();
@@ -172,12 +180,20 @@ if (isset($_POST['positive_btn'])) {
 
 function addpositive(){
 	// call these variables with the global keyword to make them available in function
-	global $db, $errors, $date;
+	global $db, $errors, $date, $username;
 
+
+	$sql= "SELECT id FROM users WHERE username='".$_SESSION['user']['username']."' LIMIT 1";
+	//$sql= "SELECT id FROM users WHERE username='$username' LIMIT 1";
+	$results = mysqli_query($db, $sql);
+	$logged_in_user_id = mysqli_fetch_assoc($results);
 	// receive all input values from the form. Call the e() function
     // defined below to escape form values
-	$date   =  e($_POST['positivetime']);
-	$logged_in_user_id = mysqli_insert_id($db);
+	$date   =  e($_POST['positivedate']);
+
+	echo "user id= ".$logged_in_user_id["id"]."";
+	$current_user_id = $logged_in_user_id["id"];
+	
 
 	// form validation: ensure that the form is correctly filled
 	if (empty($date)) { 
@@ -188,8 +204,8 @@ function addpositive(){
 	// register user if there are no errors in the form
 	if (count($errors) == 0) {
 		
-			$query = "INSERT INTO positive (userId, positivetamp) 
-					  VALUES('$logged_in_user_id', '$date')";
+			$query = "INSERT INTO positive (positivetamp,userId)
+					  VALUES('$date','$current_user_id')";
 			mysqli_query($db, $query);
 					
 		
