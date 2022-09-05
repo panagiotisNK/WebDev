@@ -1,4 +1,9 @@
-<?php include('functions.php') ?>
+<?php 
+	include('functions.php');
+	$query = "SELECT * FROM positive WHERE userId = '".$_SESSION['user']['id']."' ORDER BY userId DESC";  
+	$result = mysqli_query($db, $query); 
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +46,7 @@
                     </li>
 
                     <li class="nav-item"> 
-                            <a href="usermap.php?logout='1'" style="color: red;"> Log Out </a>
+                        <a href="usermap.php?logout='1'" style="color: red;"> Log Out </a>
                     </li>
                 </ul>
             </div>
@@ -49,41 +54,97 @@
     </nav>
 
 	<section class="vh-100 gradient-custom bg-dark">
-		<form class="container" method="post" action="changes.php">
-			<div class="row d-flex justify-content-center align-items-center h-100">
-				<div class="col-12 col-md-8 col-lg-6 col-xl-5">
-					<div class="card bg-dark text-white" style="border-radius: 1rem;">
-						<div class="card-body p-5 text-center">	
-							<div class="mb-md-5 mt-md-4 pb-5">
-								<?php echo display_error(); ?>
-
-								<h4 class="text-white-50 mb-5"> Change your account information </h4>
-
-								<div class="form-outline form-white mb-4">
-									<label class="form-label">Username</label>
-									<input type="text" name="username" class="form-control form-control-lg" value="<?php echo $username; ?>">
-								</div>
-								<div class="form-outline form-white mb-4">
-									<label class="form-label">Password</label>
-									<input type="password" name="password_1" class="form-control form-control-lg" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}" 
-									title="Must contain at least one number and one uppercase and lowercase letter, at least 8 or more characters and a special character" required>
-								</div>
-								<div class="form-outline form-white mb-4">
-									<label class="form-label">Confirm password</label>
-									<input type="password" name="password_2" class="form-control form-control-lg">
-								</div>
-								<br>
-								<div class="form-outline form-white mb-4">
-									<button type="submit" class="btn btn-outline-light btn-lg px-5" name="update_btn">Confirm Changes</button>
-								</div>
-							</div>	
-						</div>	
+	<div class="row d-flex justify-content-center align-items-center h-50">
+		<div class="col-lg-8">
+			<div class="card mb-4 bg-dark text-white">
+				<div class="card-body">
+				<h4 class="text-white-50">Account Information</h4> <br> 
+					<div class="row">
+						<div class="col-sm-3">
+							<p class="mb-0">Username</p>
+						</div>
+						<div class="col-sm-9">
+							<p class="text-muted mb-0"><?php echo $_SESSION['user']['username']; ?>
+							<a class="text-white-50" href="usernamechange.php">(Edit)</a></p>
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-sm-3">
+							<p class="mb-0">Email</p>
+						</div>
+						<div class="col-sm-9">
+							<p class="text-muted mb-0"><?php echo $_SESSION['user']['email']; ?></p>
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-sm-3">
+							<p class="mb-0">Password</p>
+						</div>
+						<div class="col-sm-9">
+							<a class="text-white-50" href="passwordchange.php">Change Your Password</a>
+						</div>
 					</div>
 				</div>
 			</div>
-		</form>
-</section>
+		</div>
+	</div>
 
+	<div class="container" style="width:700px;" align="center">
+		<h4 class="text-white-50">I was positive in:</h4> <br>    
+        <div class="table-responsive" id="positive">  
+        	<table class="table table-bordered text-white">  
+                <tr>  
+                    <th><a class="column_sort text-white-50" id="date" data-order="desc" href="#">Date</a></th>  
+                   	<th><a class="column_sort text-white-50" id="time" data-order="desc" href="#">Time</a></th>   
+                </tr>  
+                <?php  
+            	   	while($row = mysqli_fetch_array($result)){  
+                ?>  
+                <tr>  
+                    <td><?php echo $row["positivedate"]; ?></td>  
+                	<td><?php echo $row["positivetime"]; ?></td>  
+                </tr>  
+                <?php  
+        	    	}  
+                ?>  
+            </table>  
+        </div>  
+	</div>  
+	<br />  
+
+</section>
 
 </body>
 </html>
+
+<script>  
+ 	$(document).ready(function(){  
+      	$(document).on('click', '.column_sort', function(){  
+           	var column_name = $(this).attr("id");  
+           	var order = $(this).data("order");  
+           	var arrow = '';  
+           	//glyphicon glyphicon-arrow-up  
+           	//glyphicon glyphicon-arrow-down  
+    		if(order == 'desc')  
+        	{  
+                arrow = '&nbsp;<span class="glyphicon glyphicon-arrow-down"></span>';  
+        	}  
+        	else  
+        	{  
+                arrow = '&nbsp;<span class="glyphicon glyphicon-arrow-up"></span>';  
+        	}  
+        	$.ajax({  
+                url:"infosort.php",  
+                method:"POST",  
+                data:{column_name:column_name, order:order},  
+                success:function(data)  
+                {  
+                     $('#positive').html(data);  
+                     $('#'+column_name+'').append(arrow);  
+                }  
+        	})  
+    	});  
+	});  
+</script>  
