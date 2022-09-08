@@ -197,6 +197,8 @@
     });*/
    
 
+    
+
 $.ajax(
   'select.php', 
   {
@@ -209,9 +211,21 @@ $.ajax(
 for(let i in data) {
    console.log(data[i].popnow)
         let title = data[i].poiName;    //value searched
-        let    lat = data[i].lat;
 
+        let lat = data[i].lat;
         let lng = data[i].lng;        //position found
+
+        let poiIdent=data[i].poinow;
+
+        //$.post( "functions.php", {variable:poiIdent});
+        /*$.ajax({
+            type: "post",
+            url: "functions.php",
+            data: poiIdent,
+            success: function (data) {
+   
+            }
+        });*/
 
         let myIcon;
         
@@ -273,23 +287,86 @@ for(let i in data) {
       
 
 // marker.bindPopup( title );
-function addvisit(){
 
-    $.post('post_visit.php', { field1: poiId, field2 :userId , field3:new Date()});
+    
+ //$.post('functions.php', { 'variable': title});
+   
+ /*$.ajax({
+        type:    "POST",
+        url:     "functions.php",
+        data:    {
+            "variable":title,
+        },
+        success: function() {
+            console.log("poiId got passed");
+        }
+    });*/
 
+    /*function addvisit(){
+        console.log('working');
+//$.post('post_visit.php', { field1: poiIdent});
+$.ajax({
+    type:    "GET",
+    url:     "post_visit.php",
+    data:    {
+        "field1": poiIdent
+    },
+    success: function() {
+        console.log(poiIdent);
     }
-marker.bindPopup( data[i].popnow + title + "<br><button type='Submit' onclick='addvisit()' class='btn' name='visit_btn'> Submit </button>" );
+});
+
+}*/
+    
+    const popup = L.popup().setContent(  title + "<br><input type='submit'  class='button' name='visit_btn' id='vst_btn' > ");
+    popup.poiIdent=poiIdent;
+
+   
 
 
-        markersLayer.addLayer(marker);
-        marker.setOpacity(0);
+    marker.bindPopup( popup )
+.on("popupopen", function(e){
+    $.ajax({
+        type:    "POST",
+        url:     "functions.php",
+        data:    {
+            "variable":e.popup.poiIdent
+        },
+        success: function() {
+            console.log(e.popup.poiIdent);
+        }
+    });
+
+    //$.post('functions.php', { 'variable': e.popup.poiIdent});
+});
+
+$('#vst_btn').click(function(){
+        console.log('working');
+//$.post('post_visit.php', { field1: poiIdent});
+$.ajax({
+    type:    "GET",
+    url:     "post_visit.php",
+    data:    {
+        "field1": poiIdent
+    },
+    success: function() {
+        console.log(poiIdent);
+    }
+});
+})
+
+    markersLayer.addLayer(marker);
+    marker.setOpacity(0);
       
-
+        
     }
+
+
+
+
     map.addControl( new L.Control.Search({layer:markersLayer ,position:"topright",zoom:17})
     .on('search:locationfound', function({latlng, title, layer}){
         layer.setOpacity(1);
-     
     }) );
  
 
@@ -301,6 +378,7 @@ marker.bindPopup( data[i].popnow + title + "<br><button type='Submit' onclick='a
     
    }    
 );
+
 
 function myFunction() {
  let button = $(this).title;

@@ -8,6 +8,9 @@ $db = mysqli_connect('localhost', 'root', '', 'pois');
 $username = "";
 $email    = "";
 $errors   = array(); 
+$poi_Id   ="";
+
+
 
 // call the register() function if register_btn is clicked
 if (isset($_POST['register_btn'])) {
@@ -166,6 +169,74 @@ function isAdmin()
 		return false;
 	}
 }
+
+/*function visitBtnHandler(){
+	global $poi_Id;
+	//$poi_Id =$_POST['variable'];
+    addVisit();
+
+}*/
+//$poi_Id = $_POST['variable'];
+
+function visitBtnHandler(){
+	global $poi_Id;
+	$isset=isset($_POST['variable']);
+	echo $isset;
+	if (isset($_POST['variable'])){
+		echo 'im working';
+	$poi_Id =$_POST['variable'];
+    addVisit();
+	
+	}
+	//addVisit();
+}
+
+/*if (isset($_POST['variable'])){
+	global $poi_Id;
+	$poi_Id = $_POST['variable'];
+	var_dump( $_POST);
+	}*/
+
+/*if (isset($_POST['visit_btn'])) {
+	global $poi_Id;	
+	$poi_Id = $_POST['variable'];
+    addVisit();
+}*/
+
+function addVisit(){
+
+   /* $.post('post_visit.php', { field1: poiId, field2 :userId , field3:new Date()});*/
+   //var_dump( $_POST);
+
+   // call these variables with the global keyword to make them available in function
+    global $db, $errors,$poi_Id;
+
+
+    $sql = "SELECT id FROM users WHERE username='".$_SESSION['user']['username']."' LIMIT 1";
+    //$q = "SELECT poiId FROM poi WHERE poiName='";
+
+
+    $results = mysqli_query($db, $sql);
+    $logged_in_user_id = mysqli_fetch_assoc($results);
+	$current_user_id = $logged_in_user_id["id"];
+    // receive all input values from the form. Call the e() function
+    // defined below to escape form values
+    //$date = e($_POST['currentdate']);
+	//$poi_Id = $_POST['variable'];
+
+//echo "im working";
+
+	
+    //echo "user id= ".$logged_in_user_id["id"]."";
+    
+    //$query = "INSERT INTO visits (userId,poiId) VALUES('$current_user_id','".$_POST["variable"]."')";
+	$query = "INSERT INTO visits (userId,poiId) VALUES('$current_user_id','$poi_Id')";
+    mysqli_query($db, $query);
+
+//echo "im working";
+echo $poi_Id;
+}
+
 
 if (isset($_POST['positive_btn'])) {
 	addpositive();
