@@ -244,34 +244,122 @@ if (isset($_POST['positive_btn'])) {
 
 function addpositive(){
 	// call these variables with the global keyword to make them available in function
-	global $db, $errors, $date, $username;
+	global $db, $errors, $date, $positivetime, $username, $current_user_id;
 
 
 	$sql= "SELECT id FROM users WHERE username='".$_SESSION['user']['username']."' LIMIT 1";
-	//$sql= "SELECT id FROM users WHERE username='$username' LIMIT 1";
+
 	$results = mysqli_query($db, $sql);
 	$logged_in_user_id = mysqli_fetch_assoc($results);
 	// receive all input values from the form. Call the e() function
     // defined below to escape form values
-	$date   =  e($_POST['positivedate']);
+	$date = e($_POST['positivedate']);
+	$positivetime = e($_POST['positivetime']);
 
-	echo "user id= ".$logged_in_user_id["id"]."";
 	$current_user_id = $logged_in_user_id["id"];
 	
 
 	// form validation: ensure that the form is correctly filled
 	if (empty($date)) { 
-		array_push($errors, "Timestamp is required"); 
+		array_push($errors, "Date is required"); 
+	}
+
+	if (empty($positivetime)) { 
+		array_push($errors, "Time is required"); 
 	}
 	
 
 	// register user if there are no errors in the form
 	if (count($errors) == 0) {
 		
-			$query = "INSERT INTO positive (positivetamp,userId)
-					  VALUES('$date','$current_user_id')";
-			mysqli_query($db, $query);
+		$query = "INSERT INTO positive (userId, positivedate, positivetime)
+				  VALUES('$current_user_id', '$date', '$positivetime')";
+		mysqli_query($db, $query);
 					
-		
 	}
 }
+
+//update username
+if (isset($_POST['updatename_btn'])) {
+	updateName();
+}
+
+function updateName(){
+	// call these variables with the global keyword to make them available in function
+	global $db, $errors, $email, $username;
+
+	// receive all input values from the form. Call the e() function
+    // defined below to escape form values
+	$username  =  e($_POST['username']);
+	$email  =  e($_POST['email']);
+	$password_1  =  e($_POST['password_1']);
+
+	// form validation: ensure that the form is correctly filled
+	if (empty($username)) { 
+		array_push($errors, "Username is required"); 
+	}
+	if (empty($email)) { 
+		array_push($errors, "Email is required"); 
+	}
+	if($email != $_SESSION['user']['email']){
+		array_push($errors, "Email address not verified");
+	}
+	if (empty($password_1)) { 
+		array_push($errors, "Password is required"); 
+	}
+	$password = md5($password_1);//encrypt the password before saving in the database
+	if ($password != $_SESSION['user']['password']) {
+		array_push($errors, "Incorrect password");	
+	}
+	// update user if there are no errors in the form
+	if (count($errors) == 0){
+		$query = "UPDATE users SET users.username = '$username' WHERE email = '$email'";
+		mysqli_query($db, $query);
+		//logout to see the changed info	
+		session_destroy();
+		unset($_SESSION['user']);
+		header("location: login.php");
+	}
+}
+
+
+
+
+//update password
+if (isset($_POST['updatepass_btn'])) {
+	updatePass();
+}
+
+function updatePass(){
+	// call these variables with the global keyword to make them available in function
+	global $db, $errors, $email;
+
+	// receive all input values from the form. Call the e() function
+    // defined below to escape form values
+	$email  =  e($_POST['email']);
+	$password_1  =  e($_POST['password_1']);
+	$password_2  =  e($_POST['password_2']);
+
+	// form validation: ensure that the form is correctly filled
+	if (empty($email)) { 
+		array_push($errors, "Email is required"); 
+	}
+	if($email != $_SESSION['user']['email']){
+		array_push($errors, "Email address not verified");
+	}
+	if (empty($password_1)) { 
+		array_push($errors, "Password is required"); 
+	}
+	if ($password_1 != $password_2) {
+		array_push($errors, "The two passwords do not match");
+	}
+
+	// update user if there are no errors in the form
+	if (count($errors) == 0){
+		$password = md5($password_1);//encrypt the password before saving in the database
+		$query = "UPDATE users SET users.password = '$password' WHERE email = '$email'";
+		mysqli_query($db, $query);				
+	}
+}
+
+?>  

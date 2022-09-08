@@ -78,7 +78,7 @@ CREATE TABLE users(
 CREATE TABLE visits(
     poiId VARCHAR(30) NOT NULL,
     userId INT(10) NOT NULL,
-    visitStamp TIMESTAMP NOT NULL,
+    visitStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (userId, visitStamp),
     CONSTRAINT VISITED
     FOREIGN KEY (userId) REFERENCES users(id)
@@ -89,8 +89,9 @@ CREATE TABLE visits(
 
 CREATE TABLE positive(
     userId INT(10) NOT NULL,
-    positivetamp TIMESTAMP NOT NULL,
-    PRIMARY KEY (userId, positivetamp),
+    positivedate DATE,
+    positivetime TIME,
+    PRIMARY KEY (userId, positivedate, positivetime),
     CONSTRAINT IS_POSITIVE
     FOREIGN KEY (userId) REFERENCES users(id)
     ON DELETE CASCADE ON UPDATE CASCADE
