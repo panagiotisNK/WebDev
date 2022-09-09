@@ -31,6 +31,8 @@ if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload the File')
 
     $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
 
+    
+
     // file extensions allowed
 
     $allowedfileExtensions = array('json');
@@ -45,11 +47,18 @@ if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload the File')
 
       $dest_path = $uploadFileDir . $newFileName;
 
+
+
+
+
       if(move_uploaded_file($fileTmpPath, $dest_path)) 
 
       {
 
         $message = 'File uploaded successfully.';
+
+
+        
       }
 
       else 

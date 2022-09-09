@@ -1,24 +1,24 @@
 
 <?php 
-$connect = mysqli_connect('localhost', 'root', '', 'pois');  
+include('../functions.php');
 
 
 if(isset($POST['update'])){
     $UpdateQuery = "UPDATE poi SET poiId='$_POST[id]',poiName='$_POST[name]',poiAddress='$_POST[address]',poiRating='$_POST[rating]',poiRatingn='$_POST[ratingn]',poiCurrPop='$_POST[currpop]' WHERE poiId='$_POST[hidden]'";
-    mysqli_query($UpdateQuery, $connect);
+    mysqli_query($db, $UpdateQuery);
 };
  
 
 if(isset($POST['delete'])){
     $DeleteQuery ="DELETE FROM poi WHERE  poiId='$_POST[hidden]' ";
-    mysqli_query($DeleteQuery, $connect);
+    mysqli_query($db, $DeleteQuery);
 };
 
 
 
 $query = "SELECT * FROM poi ORDER BY poiId DESC";  
-$result = mysqli_query($connect, $query);  
-include('../functions.php');
+$result = mysqli_query($db, $query);  
+
 
 if (!isAdmin()) {
 	$_SESSION['msg'] = "You must log in first";
@@ -38,14 +38,14 @@ if (isset($_GET['logout'])) {
        unset($_SESSION['message']);
      }
 
-
-}
+    }
+    
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Home | Covid Heat Maps</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+ 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>  
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
@@ -129,11 +129,13 @@ if (isset($_GET['logout'])) {
                           </tr>  
                           </form>
                           <?php  
-                          }  
+                          }  mysqli_close($db);
                           ?>  
                      </table>  
                 </div>  
            </div>  
+
+
            <br />  
 	
 
@@ -157,3 +159,7 @@ if (isset($_GET['logout'])) {
 
                          </div> 
                          </div>      
+
+
+                         </body>
+</html>
