@@ -1,6 +1,8 @@
 <?php 
 session_start();
 
+include('message.php');
+
 // connect to database
 $db = mysqli_connect('localhost', 'root', '', 'pois');
 
@@ -394,7 +396,7 @@ if(isset($_POST['updatepoi_btn']))
     $poiRatingn = mysqli_real_escape_string($db, $_POST['poiRatingn']);
 	$poiCurrPop = mysqli_real_escape_string($db, $_POST['poiCurrPop']);
 
-    $query = "UPDATE poi SET poiName='$poiName', poiAddress='$poiAddress', poiRating='$poiRating', poiRatingn='$poiRatingn' WHERE poiId='$poiId' ";
+    $query = "UPDATE poi SET poiName='$poiName', poiAddress='$poiAddress', poiRating='$poiRating', poiRatingn='$poiRatingn', poiCurrPop = '$poiCurrPop' WHERE poiId='$poiId' ";
     $query_run = mysqli_query($db, $query);
 
     if($query_run)

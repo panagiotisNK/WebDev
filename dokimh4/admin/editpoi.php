@@ -62,7 +62,7 @@ include('../functions.php');
                             {
                                 $poi = mysqli_fetch_array($query_run);
                                 ?>
-                                <form action="functions.php" method="POST">
+                                <form action="home.php" method="POST">
                                     <input type="hidden" name="poi_id" value="<?= $poi['poiId']; ?>">
 
                                     <div class="mb-3">

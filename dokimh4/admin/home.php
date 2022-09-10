@@ -103,7 +103,7 @@ if (isset($_GET['logout'])) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php 
+                                <?php  
                                     $query = "SELECT * FROM poi";
                                     $query_run = mysqli_query($db, $query);
 
@@ -120,8 +120,8 @@ if (isset($_GET['logout'])) {
                                                 <td><?= $poi['poiRatingn']; ?></td>
                                                 <td><?= $poi['poiCurrPop']; ?></td>
                                                 <td>
-                                                    <a href="editpoi.php?id=<?= $poi['poiId']; ?>" class="btn btn-success btn-sm">Edit</a>
-                                                    <form action="functions.php" method="POST" class="d-inline">
+                                                    <a href="editpoi.php?poiId=<?= $poi['poiId']; ?>" class="btn btn-success btn-sm">Edit</a>
+                                                    <form action="home.php" method="POST" class="d-inline">
                                                         <button type="submit" name="deletepoi_btn" value="<?=$poi['poiId'];?>" class="btn btn-danger btn-sm">Delete</button>
                                                     </form>
                                                 </td>
