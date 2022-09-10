@@ -93,12 +93,17 @@
     </nav>
 
     <form class="container" method="post" action="usermap.php">
-        <div class="col-12 col-md-5 col-lg-6 col-xl-5">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Enter the name of the place you visited." aria-label="Enter the name of the place you visited." aria-describedby="basic-addon2" name="poiname">
-                <div class="input-group-append">
-                <button class="btn btn-outline-light btn-lg px-3" type="submit"  name="visit_btn">Submit</button>
-                </div>
+                <input type="text" class="form-control" placeholder="Enter the name of the place you visited." aria-label="Enter the name of the place you visited." aria-describedby="basic-addon2">
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Enter an estimate for the current number of visitors." aria-label="Enter an estimate for the current number of visitors." aria-describedby="basic-addon2">
+            </div>
+
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" name="visit_btn">Submit</button>
+            </div>
             </div>
         </div>
     </form>
