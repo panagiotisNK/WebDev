@@ -59,20 +59,25 @@
                                 
                                 <div class="mb-md-5 mt-md-4 pb-5">
 
-	<div class="input-group">
-		<label for="visitime">Date And Time(Optionally):</label>
-  <input type="date" id="positivedate" name="positivedate" >
-  <div class="input-group">
+                                    <p class="text-white-50 mb-5">Enter the date of the diagnosis.</p>
 
-  <button class="btn btn-outline-light btn-lg px-3" type="submit"  name="positive_btn">Submit</button>
-	</div>
-	</div>
-    </div>
-	</div>
-	</div>
-	</div>
+	                                <div class="input-group">
+		                                <label for="visitime">Date</label>
+                                        <input type="date" id="positivedate" name="positivedate" >
+                                    </div>
+                                    <div class="input-group">
+		                                <label for="visitime">Time</label>
+                                        <input type="time" id="positivetime" name="positivetime" >
+                                    </div>
+                                    <button class="btn btn-outline-light btn-lg px-3" type="submit"  name="positive_btn">Submit</button>
+	                                
+	                            </div>
+                            </div>
+	                    </div>
+	                </div>
+	            </div>
 	
-    </form>
+            </form>
    </section>
 
 </body>
