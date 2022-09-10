@@ -92,11 +92,22 @@
         </div>
     </nav>
 
+    <form class="container" method="post" action="usermap.php">
+        <div class="col-12 col-md-5 col-lg-6 col-xl-5">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Enter the name of the place you visited." aria-label="Enter the name of the place you visited." aria-describedby="basic-addon2" name="poiname">
+                <div class="input-group-append">
+                <button class="btn btn-outline-light btn-lg px-3" type="submit"  name="visit_btn">Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
 
 
     <div id="map">
     
         <div class="leaflet-control coordinate"></div>
+        
     </div>
     
 </div>
@@ -217,6 +228,11 @@ for(let i in data) {
 
         let poiIdent=data[i].poinow;
 
+        let popNow = data[i].popnow;
+        let popNow1 = data[i].popnow1;
+
+        let popAvg = (popNow + popNow1)/2;
+
         //$.post( "functions.php", {variable:poiIdent});
         /*$.ajax({
             type: "post",
@@ -278,7 +294,7 @@ for(let i in data) {
        
 
 
-        let    marker = new L.Marker(new L.latLng([lat,lng]), {title: title , clickable: false , icon: myIcon  } );//se property searched
+        let    marker = new L.Marker(new L.latLng([lat,lng]), {title: title , clickable: true , icon: myIcon  } );//se property searched
 
 
      //   var popup = L.popup()
@@ -302,6 +318,7 @@ for(let i in data) {
         }
     });*/
 
+    
     /*function addvisit(){
         console.log('working');
 //$.post('post_visit.php', { field1: poiIdent});
@@ -318,15 +335,15 @@ $.ajax({
 
 }*/
     
-    const popup = L.popup().setContent(  title + "<br><input type='submit'  class='button' name='visit_btn' id='vst_btn' > ");
-    popup.poiIdent=poiIdent;
-
+    //const popup = L.popup().setContent(  title + "<br><input type='submit'  class='button' name='visit_btn'  > ");
+    //popup.poiIdent=poiIdent;
+    const popup = L.popup().setContent(  title +"<br> Average Popularity Now: "+ popNow +"<br> Average Popularity Next Hour: "+ popNow1 );
    
 
 
-    marker.bindPopup( popup )
-.on("popupopen", function(e){
-    $.ajax({
+    marker.bindPopup( popup );
+//.on("popupopen", function(e){
+    /*$.ajax({
         type:    "POST",
         url:     "functions.php",
         data:    {
@@ -335,12 +352,32 @@ $.ajax({
         success: function() {
             console.log(e.popup.poiIdent);
         }
-    });
+    });*/
 
     //$.post('functions.php', { 'variable': e.popup.poiIdent});
-});
+//});
 
-$('#vst_btn').click(function(){
+
+/*function togglePopup(e) {
+            $(".content").toggle();
+        }
+
+function addvisit(){
+        //console.log('working');
+//$.post('post_visit.php', { field1: poiIdent});
+$.ajax({
+    type:    "POST",
+    url:     "functions.php",
+    data:    {
+        functionname: 'addVisit'
+    },
+    success: function() {
+        console.log("its working");
+    }
+});
+    }
+
+/*$('#vst_btn').click(function(){
         console.log('working');
 //$.post('post_visit.php', { field1: poiIdent});
 $.ajax({
@@ -353,13 +390,13 @@ $.ajax({
         console.log(poiIdent);
     }
 });
-})
+})*/
 
     markersLayer.addLayer(marker);
     marker.setOpacity(0);
-      
+    //marker.on('click',togglePopup);
         
-    }
+}
 
 
 
@@ -367,6 +404,7 @@ $.ajax({
     map.addControl( new L.Control.Search({layer:markersLayer ,position:"topright",zoom:17})
     .on('search:locationfound', function({latlng, title, layer}){
         layer.setOpacity(1);
+
     }) );
  
 

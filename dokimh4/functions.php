@@ -1,8 +1,6 @@
 <?php 
 session_start();
 
-include('message.php');
-
 // connect to database
 $db = mysqli_connect('localhost', 'root', '', 'pois');
 
@@ -172,6 +170,8 @@ function isAdmin()
 	}
 }
 
+
+
 /*function visitBtnHandler(){
 	global $poi_Id;
 	//$poi_Id =$_POST['variable'];
@@ -180,10 +180,12 @@ function isAdmin()
 }*/
 //$poi_Id = $_POST['variable'];
 
-function visitBtnHandler(){
+
+
+/*function visitBtnHandler(){
 	global $poi_Id;
-	$isset=isset($_POST['variable']);
-	echo $isset;
+	//$isset=isset($_POST['variable']);
+	//echo $isset;
 	if (isset($_POST['variable'])){
 		echo 'im working';
 	$poi_Id =$_POST['variable'];
@@ -191,7 +193,7 @@ function visitBtnHandler(){
 	
 	}
 	//addVisit();
-}
+}*/
 
 /*if (isset($_POST['variable'])){
 	global $poi_Id;
@@ -199,11 +201,10 @@ function visitBtnHandler(){
 	var_dump( $_POST);
 	}*/
 
-/*if (isset($_POST['visit_btn'])) {
-	global $poi_Id;	
-	$poi_Id = $_POST['variable'];
+if (isset($_POST['visit_btn'])) {
     addVisit();
-}*/
+}
+
 
 function addVisit(){
 
@@ -211,33 +212,51 @@ function addVisit(){
    //var_dump( $_POST);
 
    // call these variables with the global keyword to make them available in function
-    global $db, $errors,$poi_Id;
+   global $db, $errors,$poi_Id;
 
+   	$poi_Name = $_POST['poiname'];
 
     $sql = "SELECT id FROM users WHERE username='".$_SESSION['user']['username']."' LIMIT 1";
-    //$q = "SELECT poiId FROM poi WHERE poiName='";
+    $q = "SELECT poiId FROM poi WHERE poiName='".$poi_Name."' LIMIT 1 ";
 
 
     $results = mysqli_query($db, $sql);
+	$results2 = mysqli_query($db, $q);
+
     $logged_in_user_id = mysqli_fetch_assoc($results);
 	$current_user_id = $logged_in_user_id["id"];
+
+	$poi_Ident = mysqli_fetch_assoc($results2);
+	$poi_Id = $poi_Ident["poiId"];
     // receive all input values from the form. Call the e() function
     // defined below to escape form values
     //$date = e($_POST['currentdate']);
-	//$poi_Id = $_POST['variable'];
-
+	//$poi_Id = $_POST['poiname'];
+	
+	//echo "user id= ".$logged_in_user_id["id"]."";
 //echo "im working";
 
 	
     //echo "user id= ".$logged_in_user_id["id"]."";
     
     //$query = "INSERT INTO visits (userId,poiId) VALUES('$current_user_id','".$_POST["variable"]."')";
-	$query = "INSERT INTO visits (userId,poiId) VALUES('$current_user_id','$poi_Id')";
+	$query = "INSERT INTO visits (poiId,userId) VALUES('$poi_Id','$current_user_id')";
     mysqli_query($db, $query);
 
 //echo "im working";
 echo $poi_Id;
 }
+
+
+
+
+   
+               
+
+             
+
+         
+
 
 
 if (isset($_POST['positive_btn'])) {
@@ -246,121 +265,35 @@ if (isset($_POST['positive_btn'])) {
 
 function addpositive(){
 	// call these variables with the global keyword to make them available in function
-	global $db, $errors, $date, $positivetime, $username, $current_user_id;
+	global $db, $errors, $date, $username;
 
 
 	$sql= "SELECT id FROM users WHERE username='".$_SESSION['user']['username']."' LIMIT 1";
-
+	//$sql= "SELECT id FROM users WHERE username='$username' LIMIT 1";
 	$results = mysqli_query($db, $sql);
 	$logged_in_user_id = mysqli_fetch_assoc($results);
 	// receive all input values from the form. Call the e() function
     // defined below to escape form values
-	$date = e($_POST['positivedate']);
-	$positivetime = e($_POST['positivetime']);
+	$date   =  e($_POST['positivedate']);
 
+	echo "user id= ".$logged_in_user_id["id"]."";
 	$current_user_id = $logged_in_user_id["id"];
 	
 
 	// form validation: ensure that the form is correctly filled
 	if (empty($date)) { 
-		array_push($errors, "Date is required"); 
-	}
-
-	if (empty($positivetime)) { 
-		array_push($errors, "Time is required"); 
+		array_push($errors, "Timestamp is required"); 
 	}
 	
 
 	// register user if there are no errors in the form
 	if (count($errors) == 0) {
 		
-		$query = "INSERT INTO positive (userId, positivedate, positivetime)
-				  VALUES('$current_user_id', '$date', '$positivetime')";
-		mysqli_query($db, $query);
+			$query = "INSERT INTO positive (positivetamp,userId)
+					  VALUES('$date','$current_user_id')";
+			mysqli_query($db, $query);
 					
-	}
-}
-
-//update username
-if (isset($_POST['updatename_btn'])) {
-	updateName();
-}
-
-function updateName(){
-	// call these variables with the global keyword to make them available in function
-	global $db, $errors, $email, $username;
-
-	// receive all input values from the form. Call the e() function
-    // defined below to escape form values
-	$username  =  e($_POST['username']);
-	$email  =  e($_POST['email']);
-	$password_1  =  e($_POST['password_1']);
-
-	// form validation: ensure that the form is correctly filled
-	if (empty($username)) { 
-		array_push($errors, "Username is required"); 
-	}
-	if (empty($email)) { 
-		array_push($errors, "Email is required"); 
-	}
-	if($email != $_SESSION['user']['email']){
-		array_push($errors, "Email address not verified");
-	}
-	if (empty($password_1)) { 
-		array_push($errors, "Password is required"); 
-	}
-	$password = md5($password_1);//encrypt the password before saving in the database
-	if ($password != $_SESSION['user']['password']) {
-		array_push($errors, "Incorrect password");	
-	}
-	// update user if there are no errors in the form
-	if (count($errors) == 0){
-		$query = "UPDATE users SET users.username = '$username' WHERE email = '$email'";
-		mysqli_query($db, $query);
-		//logout to see the changed info	
-		session_destroy();
-		unset($_SESSION['user']);
-		header("location: login.php");
-	}
-}
-
-
-
-
-//update password
-if (isset($_POST['updatepass_btn'])) {
-	updatePass();
-}
-
-function updatePass(){
-	// call these variables with the global keyword to make them available in function
-	global $db, $errors, $email;
-
-	// receive all input values from the form. Call the e() function
-    // defined below to escape form values
-	$email  =  e($_POST['email']);
-	$password_1  =  e($_POST['password_1']);
-	$password_2  =  e($_POST['password_2']);
-
-	// form validation: ensure that the form is correctly filled
-	if (empty($email)) { 
-		array_push($errors, "Email is required"); 
-	}
-	if($email != $_SESSION['user']['email']){
-		array_push($errors, "Email address not verified");
-	}
-	if (empty($password_1)) { 
-		array_push($errors, "Password is required"); 
-	}
-	if ($password_1 != $password_2) {
-		array_push($errors, "The two passwords do not match");
-	}
-
-	// update user if there are no errors in the form
-	if (count($errors) == 0){
-		$password = md5($password_1);//encrypt the password before saving in the database
-		$query = "UPDATE users SET users.password = '$password' WHERE email = '$email'";
-		mysqli_query($db, $query);				
+		
 	}
 }
 
@@ -386,6 +319,7 @@ if(isset($_POST['deletepoi_btn']))
 }
 
 
+
 if(isset($_POST['updatepoi_btn']))
 {
     $poiId = mysqli_real_escape_string($db, $_POST['poiId']);
@@ -396,7 +330,7 @@ if(isset($_POST['updatepoi_btn']))
     $poiRatingn = mysqli_real_escape_string($db, $_POST['poiRatingn']);
 	$poiCurrPop = mysqli_real_escape_string($db, $_POST['poiCurrPop']);
 
-    $query = "UPDATE poi SET poiName='$poiName', poiAddress='$poiAddress', poiRating='$poiRating', poiRatingn='$poiRatingn', poiCurrPop = '$poiCurrPop' WHERE poiId='$poiId' ";
+    $query = "UPDATE poi SET poiName='$poiName', poiAddress='$poiAddress', poiRating='$poiRating', poiRatingn='$poiRatingn' WHERE poiId='$poiId' ";
     $query_run = mysqli_query($db, $query);
 
     if($query_run)
@@ -413,5 +347,3 @@ if(isset($_POST['updatepoi_btn']))
     }
 
 }
-
-?>  
