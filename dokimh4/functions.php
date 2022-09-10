@@ -265,35 +265,38 @@ if (isset($_POST['positive_btn'])) {
 
 function addpositive(){
 	// call these variables with the global keyword to make them available in function
-	global $db, $errors, $date, $username;
+	global $db, $errors, $date, $positivetime, $username, $current_user_id;
 
 
 	$sql= "SELECT id FROM users WHERE username='".$_SESSION['user']['username']."' LIMIT 1";
-	//$sql= "SELECT id FROM users WHERE username='$username' LIMIT 1";
+
 	$results = mysqli_query($db, $sql);
 	$logged_in_user_id = mysqli_fetch_assoc($results);
 	// receive all input values from the form. Call the e() function
     // defined below to escape form values
-	$date   =  e($_POST['positivedate']);
+	$date = e($_POST['positivedate']);
+	$positivetime = e($_POST['positivetime']);
 
-	echo "user id= ".$logged_in_user_id["id"]."";
 	$current_user_id = $logged_in_user_id["id"];
 	
 
 	// form validation: ensure that the form is correctly filled
 	if (empty($date)) { 
-		array_push($errors, "Timestamp is required"); 
+		array_push($errors, "Date is required"); 
+	}
+
+	if (empty($positivetime)) { 
+		array_push($errors, "Time is required"); 
 	}
 	
 
-	// register user if there are no errors in the form
+	// insert in table there are no errors in the form
 	if (count($errors) == 0) {
 		
-			$query = "INSERT INTO positive (positivetamp,userId)
-					  VALUES('$date','$current_user_id')";
-			mysqli_query($db, $query);
+		$query = "INSERT INTO positive (userId, positivedate, positivetime)
+				  VALUES('$current_user_id', '$date', '$positivetime')";
+		mysqli_query($db, $query);
 					
-		
 	}
 }
 
