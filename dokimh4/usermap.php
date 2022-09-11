@@ -253,7 +253,7 @@ for(let i in data) {
         if(data[i].popnow > 65){
             myIcon = L.icon({
              //   iconUrl: 'leaf-red.png',
-                iconUrl: 'redm.png',
+                iconUrl: 'redmark.png',
    // shadowUrl: 'leaf-shadow.png',
 
     iconSize:     [38, 95], // size of the icon
@@ -268,7 +268,7 @@ for(let i in data) {
         }else if(data[i].popnow < 33){
             myIcon = L.icon({
              //   iconUrl: 'leaf-green.png',
-                iconUrl: 'greenm.jpg',
+                iconUrl: 'greenmark.jpg',
    // shadowUrl: 'leaf-shadow.png',
 
     iconSize:     [38, 95], // size of the icon
@@ -283,7 +283,7 @@ for(let i in data) {
         }else{
     myIcon = L.icon({
   //  iconUrl: 'leaf-orange.png',
-    iconUrl: 'orangem.png',
+    iconUrl: 'orangemark.png',
   //  shadowUrl: 'leaf-shadow.png',
 
     iconSize:     [38, 95], // size of the icon
