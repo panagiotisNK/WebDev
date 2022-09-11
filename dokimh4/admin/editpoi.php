@@ -1,5 +1,6 @@
 <?php 
 include('../functions.php');
+include('afunctions.php');
 ?>
 
 <!DOCTYPE html>

@@ -1,6 +1,7 @@
 
 <?php 
 include('../functions.php');
+include('afunctions.php');
 
 
 $query = "SELECT * FROM poi ORDER BY poiId DESC";  
