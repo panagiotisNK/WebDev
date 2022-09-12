@@ -215,6 +215,7 @@ function addVisit(){
    global $db, $errors,$poi_Id;
 
    	$poi_Name = $_POST['poiname'];
+	$poi_Estimate = $_POST['poiestimate'];
 
     $sql = "SELECT id FROM users WHERE username='".$_SESSION['user']['username']."' LIMIT 1";
     $q = "SELECT poiId FROM poi WHERE poiName='".$poi_Name."' LIMIT 1 ";
@@ -240,11 +241,11 @@ function addVisit(){
     //echo "user id= ".$logged_in_user_id["id"]."";
     
     //$query = "INSERT INTO visits (userId,poiId) VALUES('$current_user_id','".$_POST["variable"]."')";
-	$query = "INSERT INTO visits (poiId,userId) VALUES('$poi_Id','$current_user_id')";
+	$query = "INSERT INTO visits (poiId,userId,visitEstimate) VALUES('$poi_Id','$current_user_id','$poi_Estimate')";
     mysqli_query($db, $query);
 
 //echo "im working";
-echo $poi_Id;
+//echo $poi_Id;
 }
 
 
@@ -300,4 +301,3 @@ function addpositive(){
 	}
 }
 
-?>
