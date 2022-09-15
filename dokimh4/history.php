@@ -1,8 +1,12 @@
-<?php include('functions.php') ?>
+<?php include('functions.php'); 
+$query = "SELECT * FROM positive WHERE userId = '".$_SESSION['user']['id']."' ORDER BY userId DESC"; 
+//$q = "SELECT P " 
+$result = mysqli_query($db, $query); ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>History</title>
+
     <link rel="stylesheet" href="style4.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <style>
@@ -53,25 +57,36 @@ table, th, td {
             </div>
         </div>
     </nav>
-<h2>Full History Table</h2>
 
-<table>
-  <tr>
-    <th>Points Of Interest</th>
-    <th>Time Of Visit</th>
-    <th>Contact With Someone Positive</th>
-  </tr>
-  <tr>
-    <td>Peter</td>
-    <td>Griffin</td>
-    <td>YES</td>
-  </tr>
-  <tr>
-    <td>Lois</td>
-    <td>Griffin</td>
-    <td>NO</td>
-  </tr>
+<section class="vh-100 gradient-custom bg-dark">
 
-</table>
+
+
+<div class="container" style="width:700px;" align="center"> <br><br>
+		<h4 class="text-white-50">Possible encounter with Covid-19 patient in:</h4> <br>    
+        <div class="table-responsive" id="positive">  
+        	<table class="table table-bordered text-white">  
+                <tr>  
+                    <th><a class="column_sort text-white-50" id="poi" data-order="desc" href="#">Point Of Interest</a></th>
+                    <th><a class="column_sort text-white-50" id="date" data-order="desc" href="#">Date</a></th>  
+                   	<th><a class="column_sort text-white-50" id="time" data-order="desc" href="#">Time</a></th>   
+                </tr>  
+                <?php  
+            	   	while($row = mysqli_fetch_array($result)){  
+                ?>  
+                <tr>  
+                  <td><?php echo $row["positivedate"]; ?></td>
+                  <td><?php echo $row["positivedate"]; ?></td>  
+                	<td><?php echo $row["positivetime"]; ?></td>  
+                </tr>  
+                <?php  
+        	    	}  
+                ?>  
+            </table>  
+        </div>  
+	</div>  
+
+</section>
+
 </body>
 </html>

@@ -234,6 +234,10 @@ for(let i in data) {
 
         let popAvg = (popNow + popNow1)/2;
 
+        let visitEstimate= data[i].averageEstimate;
+
+        //let 
+
         //$.post( "functions.php", {variable:poiIdent});
         /*$.ajax({
             type: "post",
@@ -338,7 +342,7 @@ $.ajax({
     
     //const popup = L.popup().setContent(  title + "<br><input type='submit'  class='button' name='visit_btn'  > ");
     
-    const popup = L.popup().setContent(  title +"<br> Average Popularity Now: "+ popNow +"<br> Average Popularity Next Hour: "+ popNow1 + "<br> Average popularity by visitors input:" + popVisitor );
+    const popup = L.popup().setContent(  title +"<br> Average Popularity Now: "+ popNow +"<br> Average Popularity Next Hour: "+ popNow1 + "<br> Average popularity by visitors input:"+ visitEstimate  );
     //popup.poiIdent=poiIdent;
 
 

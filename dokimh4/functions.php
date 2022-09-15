@@ -229,6 +229,11 @@ function addVisit(){
 
 	$poi_Ident = mysqli_fetch_assoc($results2);
 	$poi_Id = $poi_Ident["poiId"];
+
+	$visitstamp = date("y-m-d");
+	
+	$visittime = date("H:i:s");
+	echo $visittime;
     // receive all input values from the form. Call the e() function
     // defined below to escape form values
     //$date = e($_POST['currentdate']);
@@ -241,7 +246,7 @@ function addVisit(){
     //echo "user id= ".$logged_in_user_id["id"]."";
     
     //$query = "INSERT INTO visits (userId,poiId) VALUES('$current_user_id','".$_POST["variable"]."')";
-	$query = "INSERT INTO visits (poiId,userId,visitEstimate) VALUES('$poi_Id','$current_user_id','$poi_Estimate')";
+	$query = "INSERT INTO visits (poiId,userId,visitEstimate,visitDate,visitTime) VALUES('$poi_Id','$current_user_id','$poi_Estimate','$visitstamp','$visittime')";
     mysqli_query($db, $query);
 
 //echo "im working";
