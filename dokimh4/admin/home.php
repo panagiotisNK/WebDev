@@ -4,30 +4,27 @@ include('../functions.php');
 include('afunctions.php');
 
 
+if(isset($POST['update'])){
+    $UpdateQuery = "UPDATE poi SET poiId='$_POST[id]',poiName='$_POST[name]',poiAddress='$_POST[address]',poiRating='$_POST[rating]',poiRatingn='$_POST[ratingn]',poiCurrPop='$_POST[currpop]' WHERE poiId='$_POST[hidden]'";
+    mysqli_query($UpdateQuery, $connect);
+};
+ 
+
+if(isset($POST['delete'])){
+    $DeleteQuery ="DELETE FROM poi WHERE  poiId='$_POST[hidden]' ";
+    mysqli_query($DeleteQuery, $connect);
+};
+
+
+
 $query = "SELECT * FROM poi ORDER BY poiId DESC";  
 $result = mysqli_query($db, $query);  
-
 
 if (!isAdmin()) {
 	$_SESSION['msg'] = "You must log in first";
 	header('location: ../login4.php');
 }
 
-if (isset($_GET['logout'])) {
-	session_destroy();
-	unset($_SESSION['user']);
-	header("location: ../login.php");
-
-
-
-     if (isset($_SESSION['message']) && $_SESSION['message'])
-     {
-       printf('<b>%s</b>', $_SESSION['message']);
-       unset($_SESSION['message']);
-     }
-
-    }
-    
 ?>
 <!DOCTYPE html>
 <html>
@@ -53,9 +50,7 @@ if (isset($_GET['logout'])) {
 					<li class="nav-item">
                     	<a href="home.php" class="nav-link">Home</a>
                     </li> 
-					<li class="nav-item">
-                    <a href="create_user.php" class="nav-link">Create User</a>
-                    </li> 
+					 
 				</ul>
 
 				<!-- logged in user information -->
@@ -82,68 +77,45 @@ if (isset($_GET['logout'])) {
 
 	<body>
   
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Points of Interest Table</h4>
-                    </div>
-                    <div class="card-body">
+	<br />            
+           <div class="container" style="width:700px;" allign="center">  
+               
+                <div  id="pois">  
+                     <table class="table table-bordered">  
+                          <tr>  
+                               <th><a class="column_sort" id="id" data-order="desc" href="#">ID</a></th>  
+                               <th><a class="column_sort" id="name" data-order="desc" href="#">Name</a></th>  
+                               <th><a class="column_sort" id="address" data-order="desc" href="#">Address</a></th>  
+                               <th><a class="column_sort" id="rating" data-order="desc" href="#">Rating</a></th>  
+                               <th><a class="column_sort" id="ratingn" data-order="desc" href="#">Ratingn</a></th>
+							   <th><a class="column_sort" id="currpop" data-order="desc" href="#">CurrentPop</a></th>  
+						
 
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Address</th>
-                                    <th>Rating</th>
-                                    <th>Ratingn</th>
-                                    <th>Current Popularity</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php  
-                                    $query = "SELECT * FROM poi";
-                                    $query_run = mysqli_query($db, $query);
-
-                                    if(mysqli_num_rows($query_run) > 0)
-                                    {
-                                        foreach($query_run as $poi)
-                                        {
-                                            ?>
-                                            <tr>
-                                                <td><?= $poi['poiId']; ?></td>
-                                                <td><?= $poi['poiName']; ?></td>
-                                                <td><?= $poi['poiAddress']; ?></td>
-                                                <td><?= $poi['poiRating']; ?></td>
-                                                <td><?= $poi['poiRatingn']; ?></td>
-                                                <td><?= $poi['poiCurrPop']; ?></td>
-                                                <td>
-                                                    <a href="editpoi.php?poiId=<?= $poi['poiId']; ?>" class="btn btn-success btn-sm">Edit</a>
-                                                    <form action="home.php" method="POST" class="d-inline">
-                                                        <button type="submit" name="deletepoi_btn" value="<?=$poi['poiId'];?>" class="btn btn-danger btn-sm">Delete</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                        }
-                                    }
-                                    else
-                                    {
-                                        echo "<h5> No Record Found </h5>";
-                                    }
-                                ?>
-                                
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+							  
+                          <?php  
+                          while($row = mysqli_fetch_array($result))  
+                          {  
+                          ?>  
+                          <form action=home.php method=post> 
+                          <tr>  
+                               <td><?php echo "<input type=text name=id value= $row[poiId]>"; ?></td>  
+                               <td><?php echo "<textarea cols=40 rows=2 name=name >$row[poiName]</textarea>"; ?></td>  
+                               <td><?php echo "<textarea cols=40 rows=2 name=address >$row[poiAddress]</textarea>"; ?></td>    
+                               <td><?php echo "<input type=text name=rating value= $row[poiRating]>"; ?></td>  
+                               <td><?php echo "<input type=text name=ratingn value= $row[poiRatingn]>"; ?></td>  
+							   <td><?php echo "<input type=text name=currpop value= $row[poiCurrPop]>"; ?></td>   
+							   <td><?php echo "<input type=hidden name=hidden value=$row[poiId]"; ?></td>  
+							   <td> <input type=submit name=update value='update'> </td> 
+							   <td> <input type=submit name=delete value='delete'> </td> 
+                          </tr>  
+                          </form>
+                          <?php  
+                          }  
+                          ?>  
+                     </table>  
+                </div>  
+           </div>  
+           <br />  
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -158,5 +130,5 @@ if (isset($_GET['logout'])) {
 <input type="submit" name="uploadBtn" value="Upload the File" />
 
 
-                         </body>
+ </body>
 </html>
