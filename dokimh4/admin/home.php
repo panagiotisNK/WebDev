@@ -4,15 +4,27 @@ include('../functions.php');
 include('afunctions.php');
 
 
-if(isset($POST['update'])){
-    $UpdateQuery = "UPDATE poi SET poiId='$_POST[id]',poiName='$_POST[name]',poiAddress='$_POST[address]',poiRating='$_POST[rating]',poiRatingn='$_POST[ratingn]',poiCurrPop='$_POST[currpop]' WHERE poiId='$_POST[hidden]'";
-    mysqli_query($UpdateQuery, $connect);
+if(isset($_POST['update'])){
+    
+    $poiId=$_POST['id'];
+    $poiName=$_POST['name'];
+    $poiAddress=$_POST['address'];
+    $poiRating=$_POST['rating'];
+    $poiRaringn=$_POST['ratingn'];
+    $poiCurrpop=$_POST['currpop'];
+    $poiHidden=$_POST['hidden'];
+
+    echo $poiId;
+
+    $UpdateQuery = "UPDATE poi SET poiId='$poiId',poiName='$poiName',poiAddress='$poiAddress',poiRating='$poiRating',poiRatingn='$poiRaringn',poiCurrPop='$poiCurrpop' WHERE poiId='$poiHidden' ";
+    mysqli_query($db,$UpdateQuery);
+   
 };
  
 
 if(isset($POST['delete'])){
     $DeleteQuery ="DELETE FROM poi WHERE  poiId='$_POST[hidden]' ";
-    mysqli_query($DeleteQuery, $connect);
+    mysqli_query($db,$DeleteQuery);
 };
 
 
@@ -95,18 +107,18 @@ if (!isAdmin()) {
                           <?php  
                           while($row = mysqli_fetch_array($result))  
                           {  
-                          ?>  
-                          <form action=home.php method=post> 
+                          ?> 
+                          <form action="home.php" method="post"> 
                           <tr>  
-                               <td><?php echo "<input type=text name=id value= $row[poiId]>"; ?></td>  
-                               <td><?php echo "<textarea cols=40 rows=2 name=name >$row[poiName]</textarea>"; ?></td>  
-                               <td><?php echo "<textarea cols=40 rows=2 name=address >$row[poiAddress]</textarea>"; ?></td>    
-                               <td><?php echo "<input type=text name=rating value= $row[poiRating]>"; ?></td>  
-                               <td><?php echo "<input type=text name=ratingn value= $row[poiRatingn]>"; ?></td>  
-							   <td><?php echo "<input type=text name=currpop value= $row[poiCurrPop]>"; ?></td>   
-							   <td><?php echo "<input type=hidden name=hidden value=$row[poiId]"; ?></td>  
-							   <td> <input type=submit name=update value='update'> </td> 
-							   <td> <input type=submit name=delete value='delete'> </td> 
+                               <td><?php echo "<input type=text name='id' value= $row[poiId]>"; ?></td>  
+                               <td><?php echo "<textarea cols=40 rows=2 name='name' >$row[poiName]</textarea>"; ?></td>  
+                               <td><?php echo "<textarea cols=40 rows=2 name='address' >$row[poiAddress]</textarea>"; ?></td>    
+                               <td><?php echo "<input type=text name='rating' value= $row[poiRating]>"; ?></td>  
+                               <td><?php echo "<input type=text name='ratingn' value= $row[poiRatingn]>"; ?></td>  
+							   <td><?php echo "<input type=text name='currpop' value= $row[poiCurrPop]>"; ?></td>   
+							   <td><?php echo "<input type=hidden name='hidden' value=$row[poiId]>"; ?></td>  
+							   <td> <button type="submit" name="update">Update</button> </td> 
+							   <td> <button type="submit" name="delete">Delete</button> </td> 
                           </tr>  
                           </form>
                           <?php  
