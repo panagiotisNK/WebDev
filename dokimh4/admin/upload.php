@@ -1,13 +1,13 @@
-<!--<?php
+<?php
 $connect = mysqli_connect('localhost', 'root', '', 'pois');  
 
 session_start();
 
 $message = ''; 
 
-if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload the File')
+if (isset($_POST['uploadBtn']) )
 
-{
+{ echo 'button pressed';
 
   if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK)
 
@@ -43,9 +43,10 @@ if (isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload the File')
 
       // directory where file will be moved
 
-      $uploadFileDir = 'C:\xampp\htdocs\dokimh4\admin';
+      //$uploadFileDir = 'uploads/'.$newFileName;
 
-      $dest_path = $uploadFileDir . $newFileName;
+      $dest_path = 'uploads/'.$newFileName;
+      move_uploaded_file($fileTmpPath, $dest_path);
 
 
 

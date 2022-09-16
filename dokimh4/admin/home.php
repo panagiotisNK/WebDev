@@ -2,6 +2,9 @@
 <?php 
 include('../functions.php');
 include('afunctions.php');
+//include('upload.php');
+
+
 
 
 if(isset($_POST['update'])){
@@ -22,8 +25,12 @@ if(isset($_POST['update'])){
 };
  
 
-if(isset($POST['delete'])){
-    $DeleteQuery ="DELETE FROM poi WHERE  poiId='$_POST[hidden]' ";
+if(isset($_POST['delete'])){
+    $poiHidden=$_POST['hidden'];
+
+    echo $poiHidden;
+
+    $DeleteQuery ="DELETE poi,poicoordinates,poitypes,populartimes,visits FROM poi INNER JOIN poicoordinates ON poi.poiId=poicoordinates.poiId INNER JOIN poitypes ON poicoordinates.poiId=poitypes.poiId INNER JOIN populartimes ON poitypes.poiId=populartimes.poiId INNER JOIN visits ON populartimes.poiId=visits.poiId WHERE poi.poiId='$poiHidden' ";
     mysqli_query($db,$DeleteQuery);
 };
 
@@ -75,7 +82,7 @@ if (!isAdmin()) {
 
 					        <small>
     		    				<i  style="color: #888;">(<?php echo ucfirst($_SESSION['user']['user_type']); ?>)</i> 
-		    		    		<a href="home.php?logout='1'" style="color: red;">Log Out</a>
+		    		    		<a href="login.php" class="nav-link" style="color: red;">Log Out</a>
 			        		</small>
 
 		        		<?php endif ?>
@@ -135,11 +142,16 @@ if (!isAdmin()) {
 
   <span>Upload a File:</span>
 
+  <form action="home.php" method="POST" enctype="multipart/form-data">
+
   <input type="file" name="uploadedFile" />
+  <button type="submit" name="uploadBtn" > Upload the File</button>
+</form>
+  
 
-</div>
 
-<input type="submit" name="uploadBtn" value="Upload the File" />
+
+
 
 
  </body>
