@@ -3,6 +3,8 @@
 
 include('message.php');
 
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
+
 // connect to database
 $db = mysqli_connect('localhost', 'root', '', 'pois');
 
