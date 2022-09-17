@@ -30,8 +30,20 @@ if(isset($_POST['delete'])){
 
     echo $poiHidden;
 
-    $DeleteQuery ="DELETE poi,poicoordinates,poitypes,populartimes,visits FROM poi INNER JOIN poicoordinates ON poi.poiId=poicoordinates.poiId INNER JOIN poitypes ON poicoordinates.poiId=poitypes.poiId INNER JOIN populartimes ON poitypes.poiId=populartimes.poiId INNER JOIN visits ON populartimes.poiId=visits.poiId WHERE poi.poiId='$poiHidden' ";
+    $DeleteQuery ="DELETE FROM poi WHERE poiId='$poiHidden' ";
+    $DeleteQuery1 ="DELETE FROM visits WHERE poiId='$poiHidden' ";
+    $DeleteQuery2 ="DELETE FROM populartimes WHERE poiId='$poiHidden' ";
+    $DeleteQuery3 ="DELETE FROM poitypes WHERE poiId='$poiHidden' ";
+    $DeleteQuery4 ="DELETE FROM poicoordinates WHERE poiId='$poiHidden' ";
+    
+
+    
+    mysqli_query($db,$DeleteQuery1);
+    mysqli_query($db,$DeleteQuery2);
+    mysqli_query($db,$DeleteQuery3);
+    mysqli_query($db,$DeleteQuery4);
     mysqli_query($db,$DeleteQuery);
+
 };
 
 
