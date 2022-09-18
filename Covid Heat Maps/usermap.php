@@ -268,7 +268,7 @@ for(let i in data) {
         }else if(data[i].popnow < 33){
             myIcon = L.icon({
              //   iconUrl: 'leaf-green.png',
-                iconUrl: 'greenmark.jpg',
+                iconUrl: 'greenmark.png',
    // shadowUrl: 'leaf-shadow.png',
 
     iconSize:     [38, 95], // size of the icon

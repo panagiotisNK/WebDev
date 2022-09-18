@@ -1,12 +1,12 @@
-<?php include('functions.php'); 
-$query = "SELECT * FROM positive WHERE userId = '".$_SESSION['user']['id']."' ORDER BY userId DESC"; 
-//$q = "SELECT P " 
-$result = mysqli_query($db, $query); ?>
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
 	<title>History</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="style4.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <style>
@@ -62,31 +62,70 @@ table, th, td {
 
 
 
-<div class="container" style="width:700px;" align="center"> <br><br>
+<div class="container" style="width:1000px;" align="center"> <br><br>
 		<h4 class="text-white-50">Possible encounter with Covid-19 patient in:</h4> <br>    
-        <div class="table-responsive" id="positive">  
-        	<table class="table table-bordered text-white">  
-                <tr>  
-                    <th><a class="column_sort text-white-50" id="poi" data-order="desc" href="#">Point Of Interest</a></th>
-                    <th><a class="column_sort text-white-50" id="date" data-order="desc" href="#">Date</a></th>  
-                   	<th><a class="column_sort text-white-50" id="time" data-order="desc" href="#">Time</a></th>   
-                </tr>  
-                <?php  
-            	   	while($row = mysqli_fetch_array($result)){  
-                ?>  
-                <tr>  
-                  <td><?php echo $row["positivedate"]; ?></td>
-                  <td><?php echo $row["positivedate"]; ?></td>  
-                	<td><?php echo $row["positivetime"]; ?></td>  
-                </tr>  
-                <?php  
-        	    	}  
-                ?>  
-            </table>  
+        <div>  
+
+        <table class="table table-bordered table-sm" >
+         <thead class="column_sort text-white-50">
+            <tr>
+                <th>Store</th>
+                <th>Visit Date</th>
+                <th>Visit Time</th>
+                <th>Contact(s)</th>                                               
+            </tr>
+         </thead>
+         <tbody class="column_sort text-white-50" id="tableBody">
+           
+         </tbody>
+        </table> 
+
         </div>  
+
 	</div>  
 
 </section>
 
 </body>
 </html>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+
+const table = document.getElementById("tableBody");
+
+$.ajax(
+  'post_positive.php', 
+{
+    success: function(data){
+    data = JSON.parse(data);
+        
+    for(let i in data) {
+        let poiName=data[i].poiName;
+        let visitDate=data[i].visitDate;
+        let visitTime=data[i].visitTime;
+        let contacts=data[i].poiId;
+   console.log(poiName);
+   console.log(visitDate);
+   console.log(visitTime);
+   console.log(contacts);
+
+   let row = table.insertRow();
+   
+   let name = row.insertCell(0);
+   name.innerHTML = poiName;
+   let date = row.insertCell(1);
+   date.innerHTML = visitDate;
+   let time = row.insertCell(2);
+   time.innerHTML = visitTime;
+   let con = row.insertCell(3);
+   con.innerHTML = contacts;
+
+    }
+    }
+}
+    );
+
+</script>

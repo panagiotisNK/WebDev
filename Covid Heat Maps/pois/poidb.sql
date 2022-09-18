@@ -33,30 +33,30 @@ CREATE TABLE poiCoordinates(
 CREATE TABLE popularTimes(
     poiId VARCHAR(30) NOT NULL,
     dataDay SET("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"),
-    dataVal00 INT(10) DEFAULT 00 NOT NULL,
-    dataVal01 INT(10) DEFAULT 00 NOT NULL,
-    dataVal02 INT(10) DEFAULT 00 NOT NULL,
-    dataVal03 INT(10) DEFAULT 00 NOT NULL,
-    dataVal04 INT(10) DEFAULT 00 NOT NULL,
-    dataVal05 INT(10) DEFAULT 00 NOT NULL,
-    dataVal06 INT(10) DEFAULT 00 NOT NULL,
-    dataVal07 INT(10) DEFAULT 00 NOT NULL,
-    dataVal08 INT(10) DEFAULT 00 NOT NULL,
-    dataVal09 INT(10) DEFAULT 00 NOT NULL,
-    dataVal10 INT(10) DEFAULT 00 NOT NULL,
-    dataVal11 INT(10) DEFAULT 00 NOT NULL,
-    dataVal12 INT(10) DEFAULT 00 NOT NULL,
-    dataVal13 INT(10) DEFAULT 00 NOT NULL,
-    dataVal14 INT(10) DEFAULT 00 NOT NULL,
-    dataVal15 INT(10) DEFAULT 00 NOT NULL,
-    dataVal16 INT(10) DEFAULT 00 NOT NULL,
-    dataVal17 INT(10) DEFAULT 00 NOT NULL,
-    dataVal18 INT(10) DEFAULT 00 NOT NULL,
-    dataVal19 INT(10) DEFAULT 00 NOT NULL,
-    dataVal20 INT(10) DEFAULT 00 NOT NULL,
-    dataVal21 INT(10) DEFAULT 00 NOT NULL,
-    dataVal22 INT(10) DEFAULT 00 NOT NULL,
-    dataVal23 INT(10) DEFAULT 00 NOT NULL,
+    dataVal0 INT(10) DEFAULT 0 NOT NULL,
+    dataVal1 INT(10) DEFAULT 0 NOT NULL,
+    dataVal2 INT(10) DEFAULT 0 NOT NULL,
+    dataVal3 INT(10) DEFAULT 0 NOT NULL,
+    dataVal4 INT(10) DEFAULT 0 NOT NULL,
+    dataVal5 INT(10) DEFAULT 0 NOT NULL,
+    dataVal6 INT(10) DEFAULT 0 NOT NULL,
+    dataVal7 INT(10) DEFAULT 0 NOT NULL,
+    dataVal8 INT(10) DEFAULT 0 NOT NULL,
+    dataVal9 INT(10) DEFAULT 0 NOT NULL,
+    dataVal10 INT(10) DEFAULT 0 NOT NULL,
+    dataVal11 INT(10) DEFAULT 0 NOT NULL,
+    dataVal12 INT(10) DEFAULT 0 NOT NULL,
+    dataVal13 INT(10) DEFAULT 0 NOT NULL,
+    dataVal14 INT(10) DEFAULT 0 NOT NULL,
+    dataVal15 INT(10) DEFAULT 0 NOT NULL,
+    dataVal16 INT(10) DEFAULT 0 NOT NULL,
+    dataVal17 INT(10) DEFAULT 0 NOT NULL,
+    dataVal18 INT(10) DEFAULT 0 NOT NULL,
+    dataVal19 INT(10) DEFAULT 0 NOT NULL,
+    dataVal20 INT(10) DEFAULT 0 NOT NULL,
+    dataVal21 INT(10) DEFAULT 0 NOT NULL,
+    dataVal22 INT(10) DEFAULT 0 NOT NULL,
+    dataVal23 INT(10) DEFAULT 0 NOT NULL,
     PRIMARY KEY (poiId,dataDay),
     CONSTRAINT POP
     FOREIGN KEY (poiId) REFERENCES poi(poiId)
@@ -78,23 +78,15 @@ CREATE TABLE users(
 CREATE TABLE visits(
     poiId VARCHAR(30) NOT NULL,
     userId INT(10) NOT NULL,
-    visitDate DATE,
-    visitTime TIME,
-    visitEstimate INT(10) DEFAULT NULL,
-    PRIMARY KEY (userId, visitDate, visitTime),
+    visitStamp TIMESTAMP NOT NULL,
+    positive BOOLEAN,
+    positivetamp DATETIME,
+    PRIMARY KEY (poiId, userId),
     CONSTRAINT VISITED
-    FOREIGN KEY (userId) REFERENCES users(id)
-    ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (poiId) REFERENCES poi(poiId)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (userId) REFERENCES users(id)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE positive(
-    userId INT(10) NOT NULL,
-    positivedate DATE,
-    positivetime TIME,
-    PRIMARY KEY (userId, positivedate, positivetime),
-    CONSTRAINT IS_POSITIVE
-    FOREIGN KEY (userId) REFERENCES users(id)
-    ON DELETE CASCADE ON UPDATE CASCADE
-);
+

@@ -233,7 +233,7 @@ function addVisit(){
 	$visitstamp = date("y-m-d");
 	
 	$visittime = date("H:i:s");
-	echo $visittime;
+	//echo $visittime;
     // receive all input values from the form. Call the e() function
     // defined below to escape form values
     //$date = e($_POST['currentdate']);

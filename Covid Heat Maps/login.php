@@ -24,7 +24,7 @@
 						<div class="mb-md-5 mt-md-4 pb-5">
 							<?php echo display_error(); ?>
 
-							<img src="" alt="Logo">
+							
                             <h1>Covid Heat Maps</h1>
 
 							<br><br>

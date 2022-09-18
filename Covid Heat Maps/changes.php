@@ -114,27 +114,7 @@
 	</div>  
 	
 	
-	<div class="container" style="width:700px;" align="center">
-		<h4 class="text-white-50">I was positive in:</h4> <br>    
-        <div class="table-responsive" id="positive">  
-        	<table class="table table-bordered text-white">  
-                <tr>  
-                    <th><a class="column_sort text-white-50" id="date" data-order="desc" href="#">Date</a></th>  
-                   	<th><a class="column_sort text-white-50" id="time" data-order="desc" href="#">Time</a></th>   
-                </tr>  
-                <?php  
-            	   	while($row = mysqli_fetch_array($result)){  
-                ?>  
-                <tr>  
-                    <td><?php echo $row["positivedate"]; ?></td>  
-                	<td><?php echo $row["positivetime"]; ?></td>  
-                </tr>  
-                <?php  
-        	    	}  
-                ?>  
-            </table>  
-        </div>  
-	</div>  
+	
 	<br />
 
 </section>
