@@ -81,7 +81,9 @@ if (!isAdmin()) {
 					<li class="nav-item">
                     	<a href="home.php" class="nav-link">Home</a>
                     </li> 
-					 
+                    <li class="nav-item">
+                    	<a href="charts.php" class="nav-link">Statistics</a>
+                    </li> 
 				</ul>
 
 				<!-- logged in user information -->
