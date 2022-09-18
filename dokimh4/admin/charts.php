@@ -124,7 +124,9 @@ $positivevisits = getPositiveVisits();
         {
             method: "POST",
             success: function(data){
+                data = JSON.parse(data);
                 console.log("working");
+                
                 let visitCount=[];
                 let pType=[];
 
@@ -132,9 +134,9 @@ $positivevisits = getPositiveVisits();
                     visitCount.push(data[i].countt);
                     pType.push(data[i].poiType);
                 }
-
+                console.log(visitCount);
                 var chartdata = {
-                    labels: visits,
+                    labels: pType,
                     datasets: [
                         {
                             label: 'Visits per Type',
@@ -204,6 +206,7 @@ $positivevisits = getPositiveVisits();
                     type: 'bar',
                     data: chartdata
                 });
+            
             },
 
             error: function(data){
