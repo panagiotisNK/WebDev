@@ -78,9 +78,10 @@ CREATE TABLE users(
 CREATE TABLE visits(
     poiId VARCHAR(30) NOT NULL,
     userId INT(10) NOT NULL,
-    visitStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    visitDate DATE,
+    visitTime TIME,
     visitEstimate INT(10) DEFAULT NULL,
-    PRIMARY KEY (userId, visitStamp),
+    PRIMARY KEY (userId, visitDate, visitTime),
     CONSTRAINT VISITED
     FOREIGN KEY (userId) REFERENCES users(id)
     ON DELETE CASCADE ON UPDATE CASCADE,
