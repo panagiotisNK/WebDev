@@ -20,7 +20,7 @@ $positivevisits = getPositiveVisits();
  	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 
 
     <style>
@@ -40,10 +40,7 @@ $positivevisits = getPositiveVisits();
 					<li class="nav-item">
                     	<a href="home.php" class="nav-link">Home</a>
                     </li> 
-					<li class="nav-item">
-                    <a href="create_user.php" class="nav-link">Create User</a>
-                    </li> 
-                    <li class="nav-item">
+                        <li class="nav-item">
                     <a href="charts.php" class="nav-link">Statistics</a>
                     </li> 
 				</ul>
@@ -69,15 +66,33 @@ $positivevisits = getPositiveVisits();
     </nav>
 
 
+<br><br>
+    <div class="container">
 
+        <div class="chartSize">
+            <canvas id="myChart"></canvas>
+        </div>
+        
+        <br><br>
 
+        <div class="chartSize">
+            <canvas id="typeChart"></canvas>
+        </div>
 
-    <div class="chartSize">
-        <canvas id="myChart"></canvas>
-    </div>
+        <br><br>
 
-    <div class="chartSize">
-        <canvas id="typeChart"></canvas>
+        <div class="chartSize">
+            <canvas id="positiveTypeChart"></canvas>
+        </div>
+
+        <div class="chartSize">
+            <canvas id="dayChart1"></canvas>
+        </div>
+        <br> <br>
+        <div class="chartSize">
+            <canvas id="dayChart2"></canvas>
+        </div>
+
     </div>
 
     <script>
@@ -93,7 +108,7 @@ $positivevisits = getPositiveVisits();
             data: {
                 labels: ['Visits', 'Outbreaks', 'Outbreak Visits'],
                 datasets: [{
-                    label: 'Visits, Outbreaks and Outbreak Visits',
+                    label: '# of People',
                     data: [visits, outbreaks, positivevisits],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -122,7 +137,6 @@ $positivevisits = getPositiveVisits();
         $.ajax(
         'chartselect.php',
         {
-            method: "POST",
             success: function(data){
                 data = JSON.parse(data);
                 console.log("working");
@@ -140,60 +154,10 @@ $positivevisits = getPositiveVisits();
                     datasets: [
                         {
                             label: 'Visits per Type',
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
+                            backgroundColor:
                                 'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)',
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)',
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)',
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)',
-                                'rgba(255, 99, 132, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)',
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)',
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)',
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)',
-                                'rgba(255, 99, 132, 1)'
-                            ],
+                            borderColor: 
+                                'rgba(75, 192, 192, 1)',  
                             borderWidth: 1,
                             data: visitCount
                         }
@@ -215,6 +179,145 @@ $positivevisits = getPositiveVisits();
         }); 
     });
 
+
+    $(document).ready(function(){
+        $.ajax(
+        'chartselect1.php',
+        {
+            success: function(data){
+                data = JSON.parse(data);
+                console.log("working");
+                
+                let positiveTypeCount=[];
+                let pType=[];
+
+                for(let i in data) {
+                    positiveTypeCount.push(data[i].countt);
+                    pType.push(data[i].poiType);
+                }
+                console.log(positiveTypeCount);
+                var chartdata = {
+                    labels: pType,
+                    datasets: [
+                        {
+                            label: 'Positive Visits per Type this Week',
+                            backgroundColor: 
+                                'rgba(54, 162, 235, 0.2)',
+                            borderColor:
+                                'rgba(54, 162, 235, 1)',
+                            borderWidth: 1,
+                            data: positiveTypeCount
+                        }
+                    ]
+                };
+
+                var ctx2 = $("#positiveTypeChart");
+
+                var barGraph = new Chart(ctx2, {
+                    type: 'bar',
+                    data: chartdata
+                });
+            
+            },
+
+            error: function(data){
+                console.log(data);
+            }
+        }); 
+    });
+
+    $(document).ready(function(){
+        $.ajax(
+        'chartselect2.php',
+        {
+            success: function(data){
+                data = JSON.parse(data);
+                console.log("working");
+                
+                let visitCount=[];
+                let dName=[];
+
+                for(let i in data) {
+                    visitCount.push(data[i].visitcount);
+                    dName.push(data[i].dayy);
+                }
+                console.log(visitCount);
+                var chartdata = {
+                    labels: dName,
+                    datasets: [
+                        {
+                            label: 'Visits per Day (Last 7 Days)',
+                            backgroundColor: 
+                                'rgba(54, 162, 235, 0.2)',
+                            borderColor:
+                                'rgba(54, 162, 235, 1)',
+                            borderWidth: 1,
+                            data: visitCount
+                        }
+                    ]
+                };
+
+                var ctx3 = $("#dayChart1");
+
+                var barGraph = new Chart(ctx3, {
+                    type: 'bar',
+                    data: chartdata
+                });
+            
+            },
+
+            error: function(data){
+                console.log(data);
+            }
+        }); 
+    });
+
+    $(document).ready(function(){
+        $.ajax(
+        'chartselect3.php',
+        {
+            success: function(data){
+                data = JSON.parse(data);
+                console.log("working");
+                
+                let positiveVisitCount=[];
+                let dName=[];
+
+                for(let i in data) {
+                    positiveVisitCount.push(data[i].pvcount);
+                    dName.push(data[i].dayy);
+                }
+                console.log(positiveVisitCount);
+                var chartdata = {
+                    labels: dName,
+                    datasets: [
+                        {
+                            label: 'Outburst Visits per Day (Last 7 Days)',
+                            backgroundColor:
+                                'rgba(75, 192, 192, 0.2)',
+                            borderColor: 
+                                'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                            data: positiveVisitCount
+                        }
+                    ]
+                };
+
+                var ctx4 = $("#dayChart2");
+
+                var barGraph = new Chart(ctx4, {
+                    type: 'bar',
+                    data: chartdata
+                });
+            
+            },
+
+            error: function(data){
+                console.log(data);
+            }
+        }); 
+    });
+   
 
 
 

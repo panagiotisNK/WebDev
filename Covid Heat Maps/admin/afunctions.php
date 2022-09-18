@@ -169,8 +169,7 @@ function getPositiveCount(){
 
 function getPositiveVisits(){
 	global $db;
-	//$query = "SELECT count(*) FROM positive INNER JOIN visits ON visits.userId = positive.userId WHERE positiveDate BETWEEN DATEADD(day, -7, positiveDate) AND DATEADD(day, 14, positiveDate)";
-    $query = "SELECT count(*) FROM positive INNER JOIN visits ON visits.userId = positive.userId";
+	$query = "SELECT count(*) FROM positive INNER JOIN visits ON visits.userId = positive.userId WHERE positiveDate BETWEEN DATE_ADD(CURRENT_DATE, INTERVAL -7 DAY) AND DATE_ADD(CURRENT_DATE, INTERVAL 14 DAY) GROUP BY positive.userId";
 	$result = mysqli_query($db, $query);
 
 	$positives = mysqli_fetch_assoc($result);
