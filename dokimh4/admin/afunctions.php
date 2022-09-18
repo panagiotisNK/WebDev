@@ -149,6 +149,34 @@ if (isset($_POST['uploadBtn'])  )
 
 }
 
+function getVisits(){
+	global $db;
+	$query = "SELECT count(*) FROM visits";
+	$result = mysqli_query($db, $query);
+
+	$visits = mysqli_fetch_assoc($result);
+	return $visits;
+}
+
+function getPositiveCount(){
+	global $db;
+	$query = "SELECT count(*) FROM positive";
+	$result = mysqli_query($db, $query);
+
+	$positives = mysqli_fetch_assoc($result);
+	return $positives;
+}
+
+function getPositiveVisits(){
+	global $db;
+	//$query = "SELECT count(*) FROM positive INNER JOIN visits ON visits.userId = positive.userId WHERE positiveDate BETWEEN DATEADD(day, -7, positiveDate) AND DATEADD(day, 14, positiveDate)";
+    $query = "SELECT count(*) FROM positive INNER JOIN visits ON visits.userId = positive.userId";
+	$result = mysqli_query($db, $query);
+
+	$positives = mysqli_fetch_assoc($result);
+	return $positives;
+}
+
 
 
 
