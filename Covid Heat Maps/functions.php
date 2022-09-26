@@ -254,7 +254,89 @@ function addVisit(){
 }
 
 
+-//update username
+if (isset($_POST['updatename_btn'])) {
+	updateName();
+}
 
+function updateName(){
+	// call these variables with the global keyword to make them available in function
+	global $db, $errors, $email, $username;
+
+	// receive all input values from the form. Call the e() function
+    // defined below to escape form values
+	$username  =  e($_POST['username']);
+	$email  =  e($_POST['email']);
+	$password_1  =  e($_POST['password_1']);
+
+	// form validation: ensure that the form is correctly filled
+	if (empty($username)) { 
+		array_push($errors, "Username is required"); 
+	}
+	if (empty($email)) { 
+		array_push($errors, "Email is required"); 
+	}
+	if($email != $_SESSION['user']['email']){
+		array_push($errors, "Email address not verified");
+	}
+	if (empty($password_1)) { 
+		array_push($errors, "Password is required"); 
+	}
+	$password = md5($password_1);//encrypt the password before saving in the database
+	if ($password != $_SESSION['user']['password']) {
+		array_push($errors, "Incorrect password");	
+	}
+	// update user if there are no errors in the form
+	if (count($errors) == 0){
+		$query = "UPDATE users SET users.username = '$username' WHERE email = '$email'";
+		mysqli_query($db, $query);
+		//logout to see the changed info	
+		session_destroy();
+		unset($_SESSION['user']);
+		header("location: login.php");
+	}
+}
+
+
+
+
+//update password
+if (isset($_POST['updatepass_btn'])) {
+	updatePass();
+}
+
+function updatePass(){
+	// call these variables with the global keyword to make them available in function
+	global $db, $errors, $email;
+
+	// receive all input values from the form. Call the e() function
+    // defined below to escape form values
+	$email  =  e($_POST['email']);
+	$password_1  =  e($_POST['password_1']);
+	$password_2  =  e($_POST['password_2']);
+
+	// form validation: ensure that the form is correctly filled
+	if (empty($email)) { 
+		array_push($errors, "Email is required"); 
+	}
+	if($email != $_SESSION['user']['email']){
+		array_push($errors, "Email address not verified");
+	}
+	if (empty($password_1)) { 
+		array_push($errors, "Password is required"); 
+	}
+	if ($password_1 != $password_2) {
+		array_push($errors, "The two passwords do not match");
+	}
+
+	// update user if there are no errors in the form
+	if (count($errors) == 0){
+		$password = md5($password_1);//encrypt the password before saving in the database
+		$query = "UPDATE users SET users.password = '$password' WHERE email = '$email'";
+		mysqli_query($db, $query);				
+		
+	}
+}
 
    
                
