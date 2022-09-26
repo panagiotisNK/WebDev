@@ -254,7 +254,7 @@ function addVisit(){
 }
 
 
--//update username
+//update username
 if (isset($_POST['updatename_btn'])) {
 	updateName();
 }
